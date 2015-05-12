@@ -1,0 +1,28 @@
+﻿@using System.Web.UI.WebControls
+@using Microsoft.Ajax.Utilities
+@model Models.Board
+
+@{
+    ViewBag.Title = "Boards";
+}
+
+<h2>Board - @Model.Name</h2>
+
+<div class="board">
+    @for (int row = 0; row < Model.Size; row++)
+    {
+        <div>
+            @for (int col = 0; col < Model.Size; col++)
+            {
+                <span data-position="@(row * Model.Size + col)">&nbsp;</span>
+            }
+        </div>
+    }
+</div>
+
+@section loadBoard {
+    <script src="~/scripts/words.js"></script>
+    <script>app.board.loadBoard('@Html.Raw(Model.Content)')</script>
+}
+
+

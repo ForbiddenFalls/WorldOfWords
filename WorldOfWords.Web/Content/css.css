@@ -1,0 +1,40 @@
+div, span {
+    margin: 0;
+    padding: 0;
+}
+
+.word {
+    display: inline-block;
+    border: solid #000 1px;
+}
+
+.word span ,.board span {
+    width: 5rem;
+    height: 5rem;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 2rem;
+}
+
+.word span {
+    border: solid #fff 1px;
+}
+
+.vertical span {
+    display: block;
+}
+
+.board {
+    /*width: 31rem;*/
+    /*height: 100px;*/
+    display: inline-block;
+}
+
+.board, .board span {
+    border: solid #000 1px;
+}
+
+.board span {
+
+}
