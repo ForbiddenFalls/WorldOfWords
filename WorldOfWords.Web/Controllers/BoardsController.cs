@@ -6,14 +6,20 @@ using System.Web.Mvc;
 
 namespace WorldOfWords.Web.Controllers
 {
+    using global::Models.ViewsModels;
+
     public class BoardsController : BaseController
     {
         // GET: Boards
         public ActionResult Show()
         {
-            var board = this.Data.Boards.All().FirstOrDefault(b => b.Name == "Sofia");
+            var showBoardModel = new ShowBoardModel
+            {
+                Board = this.Data.Boards.All().FirstOrDefault(b => b.Name == "Varna"),
+                UserWords = new[] {"мишка", "игла", "арка", "акула", "ластик"}
+            };
 
-            return View(board);
+            return View(showBoardModel);
         }
     }
 }

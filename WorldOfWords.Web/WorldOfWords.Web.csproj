@@ -241,6 +241,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Boards\Show.cshtml" />
+    <Content Include="Views\Boards\_LayoutBoard.cshtml" />
+    <Content Include="Views\Boards\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

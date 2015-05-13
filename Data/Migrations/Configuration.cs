@@ -16,6 +16,14 @@ namespace Data.Migrations
         protected override void Seed(AppDbContext context)
         {
             context.Boards.Delete();
+            var boardVarna = new Board()
+            {
+                Name = "Varna",
+                Size = 10,
+                Content = "{\"content\":\"                         \",\"words\":[]}",
+                ExpairyTime = DateTime.Now,
+            };
+
             var boardSofia = new Board()
             {
                 Name = "Sofia",
@@ -34,6 +42,7 @@ namespace Data.Migrations
 
             context.Boards.Add(boardSofia);
             context.Boards.Add(boardPlovdiv);
+            context.Boards.Add(boardVarna);
             context.SaveChanges();
         }
     }
