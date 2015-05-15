@@ -22,7 +22,7 @@
 
         public string Content { get; set; }
 
-        public DateTime ExpairyTime { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public virtual ICollection<User> Users
         {
