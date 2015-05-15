@@ -19,6 +19,8 @@
 
         public DbSet<LettersPoints> LettersPoints { get; set; }
 
+        public DbSet<Language> Languages { get; set; }
+
         public static AppDbContext Create()
         {
             return new AppDbContext();

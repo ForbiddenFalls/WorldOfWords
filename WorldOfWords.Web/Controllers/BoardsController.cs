@@ -15,7 +15,7 @@
             {
                 Board = this.Data.Boards.All().FirstOrDefault(b => b.Name == "Varna"),
                 UserWords = userWords,
-                WordsPoints = userWords.ToList().Select(this.WordAssessor.GetPointsByWord).ToList()
+                //WordsPoints = userWords.ToList().Select(this.WordAssessor.GetPointsByWord).ToList()
             };
 
             return View(showBoardModel);

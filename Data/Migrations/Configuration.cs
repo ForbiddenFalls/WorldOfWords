@@ -1,7 +1,8 @@
-namespace Data.Migrations
+Ôªønamespace Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
+    using System.Linq;
     using EntityFramework.Extensions;
     using Models;
 
@@ -15,29 +16,31 @@ namespace Data.Migrations
 
         protected override void Seed(AppDbContext context)
         {
+            var sizeBoard = 10;
             context.Boards.Delete();
             var boardVarna = new Board()
             {
                 Name = "Varna",
-                Size = 5,
-                Content = "{\"content\":\"     \",\"words\":[]}",
-                ExpairyTime = DateTime.Now,
+                Size = sizeBoard,
+                Content = "{\"content\":\""+ new String(' ', sizeBoard*sizeBoard) +"\",\"words\":[]}",
+                ExpirationDate = DateTime.Now,
             };
 
+            sizeBoard = 5;
             var boardSofia = new Board()
             {
                 Name = "Sofia",
-                Size = 5,
-                Content = "{\"content\":\"ÍÛ˜Â Ó    Ú    Í    ‡    \",\"words\":[\"ÍÛ˜Â\",\"ÍÓÚÍ‡\"]}",
-                ExpairyTime = DateTime.Now,
+                Size = sizeBoard,
+                Content = "{\"content\":\""+ new String(' ', sizeBoard*sizeBoard) +"\",\"words\":[]}",
+                ExpirationDate = DateTime.Now,
             };
 
             var boardPlovdiv = new Board()
             {
                 Name = "Plovdiv",
                 Size = 5,
-                Content = "{\"content\":\" ÍÛ˜Â Ó  ı Ú  Ó Í    ‡   \",\"words\":[\"ÍÓÚÍ‡\",\"ÍÛ˜Â\",\"ÂıÓ\"]}",
-                ExpairyTime = DateTime.Now,
+                Content = "{\"content\":\" –∫—É—á–µ –æ  —Ö —Ç  –æ –∫    –∞   \",\"words\":[\"–∫–æ—Ç–∫–∞\",\"–∫—É—á–µ\",\"–µ—Ö–æ\"]}",
+                ExpirationDate = DateTime.Now,
             };
 
             context.Boards.Add(boardSofia);
@@ -45,12 +48,25 @@ namespace Data.Migrations
             context.Boards.Add(boardVarna);
 
             context.LettersPoints.Delete();
-            context.LettersPoints.Add(new LettersPoints()
+            context.Languages.Delete();
+
+            var language = new Language
+                {
+                    LanguageCode = "bg"
+                };
+
+            context.Languages.Add(language);
+            context.SaveChanges();
+
+            var letters = "–∞–±–≤–≥–¥–µ–∂–∑–∏–π–∫–ª–º–Ω–æ–ø—Ä—Å—Ç—É—Ñ—Ö—Ü—á—à—â—ä—å—é".ToCharArray();
+            var points =
+                "1,2,1,3,2,1,4,4,1,5,2,2,2,1,1,1,1,1,1,5,10,5,8,5,8,10,3,10,10,5".Split(',').ToList().Select(int.Parse).ToList();
+            
+            for (int i = 0; i < letters.Length; i++)
             {
-                Language = "bg",
-                Letters = "‡·‚„‰ÂÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ˜¯˘˙¸˛ˇ",
-                Points = "1,2,1,3,2,1,4,4,1,5,2,2,2,1,1,1,1,1,1,5,10,5,8,5,8,10,3,10,10,5"
-            });
+                var l = new LettersPoints {LanguageCode = language.Id, Letter = letters[i], Points = points[i]};
+                context.LettersPoints.Add(l);
+            }
 
             context.SaveChanges();
         }

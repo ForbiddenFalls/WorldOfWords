@@ -7,12 +7,12 @@
         public int Id { get; set; }
 
         [Required]
-        public string Language { get; set; }
+        public int LanguageCode { get; set; }
 
         [Required]
-        public string Letters { get; set; }
+        public char Letter { get; set; }
 
         [Required]
-        public string Points { get; set; }
+        public int Points { get; set; }
     }
 }

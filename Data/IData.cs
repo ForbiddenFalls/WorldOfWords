@@ -10,6 +10,8 @@
 
         LettersPointsRepository LettersPoints { get; }
 
+        LanguagesRepository Languages { get; }
+
         int SaveChanges();
     }
 }

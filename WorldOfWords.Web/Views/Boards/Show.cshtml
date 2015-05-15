@@ -37,7 +37,7 @@
         var word = Model.UserWords[wordIndex];
         
         <div>
-            <div>Точки: @Model.WordsPoints[wordIndex]</div>
+            <div>Точки: @*@Model.WordsPoints[wordIndex]*@</div>
             <div draggable="true" class="word">
                 @for (var i = 0; i < word.Length; i++)
                 {

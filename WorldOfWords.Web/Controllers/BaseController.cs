@@ -15,7 +15,7 @@
             var context = new AppDbContext();
             this.Data = new Data(context);
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, Configuration>());
-            this.WordAssessor = new Assessor(Language.ToLower(), context);
+            //this.WordAssessor = new Assessor(Language.ToLower(), context);
         }
 
         protected IData Data { get; set; }

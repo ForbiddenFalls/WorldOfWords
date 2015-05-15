@@ -32,6 +32,11 @@
             get { return (LettersPointsRepository)this.GetRepository<LettersPoints>(); }
         }
 
+        public LanguagesRepository Languages
+        {
+            get { return (LanguagesRepository)this.GetRepository<Language>(); }
+        }
+
         public int SaveChanges()
         {
             return this.context.SaveChanges();
@@ -57,6 +62,11 @@
                 if (type.IsAssignableFrom(typeof(LettersPoints)))
                 {
                     typeOfRepository = typeof(LettersPointsRepository);
+                }
+
+                if (type.IsAssignableFrom(typeof(Language)))
+                {
+                    typeOfRepository = typeof(LanguagesRepository);
                 }
 
                 var repository = Activator.CreateInstance(typeOfRepository, this.context);

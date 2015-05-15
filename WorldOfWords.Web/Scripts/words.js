@@ -37,7 +37,7 @@ app.word = function () {
     }
 
     function getWord() {
-        var word = $htmlWord.text();
+        var word = $($htmlWord).children(".word").text();
         word = word.replace(/[ \n\r]+/g, '');
         return word;
     }
@@ -180,14 +180,14 @@ app.board = function (word) {
         var $board = $('.board');
         $board.on('dragover', allowDrop);
         $board.on('drop', drop);
-        $board.on('mouseup', 'span', getCellId)
+        $board.on('mouseup', 'span', getCellId);
     }();
 
     return {
         setSize: setSize,
         getBoardAsJson: getBoardAsJson,
         loadBoard: loadBoard
-    }
+    };
 }(app.word);
 
 app.board.setSize(5);
