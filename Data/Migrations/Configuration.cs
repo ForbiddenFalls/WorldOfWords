@@ -19,8 +19,8 @@ namespace Data.Migrations
             var boardVarna = new Board()
             {
                 Name = "Varna",
-                Size = 10,
-                Content = "{\"content\":\"                         \",\"words\":[]}",
+                Size = 5,
+                Content = "{\"content\":\"     \",\"words\":[]}",
                 ExpairyTime = DateTime.Now,
             };
 
@@ -43,6 +43,15 @@ namespace Data.Migrations
             context.Boards.Add(boardSofia);
             context.Boards.Add(boardPlovdiv);
             context.Boards.Add(boardVarna);
+
+            context.LettersPoints.Delete();
+            context.LettersPoints.Add(new LettersPoints()
+            {
+                Language = "bg",
+                Letters = "אבגדהוזחטיךכלםמןנסעףפץצקרשתü‏ÿ",
+                Points = "1,2,1,3,2,1,4,4,1,5,2,2,2,1,1,1,1,1,1,5,10,5,8,5,8,10,3,10,10,5"
+            });
+
             context.SaveChanges();
         }
     }

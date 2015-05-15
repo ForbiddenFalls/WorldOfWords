@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace WorldOfWords.Web.Controllers
+﻿namespace WorldOfWords.Web.Controllers
 {
-    using global::Models.ViewsModels;
+    using System.Linq;
+    using System.Web.Mvc;
+    using ViewsModels;
 
     public class BoardsController : BaseController
     {
         // GET: Boards
         public ActionResult Show()
         {
+            var userWords = new[] {"мишка", "игла", "арка", "акула", "ластик"};
+
             var showBoardModel = new ShowBoardModel
             {
                 Board = this.Data.Boards.All().FirstOrDefault(b => b.Name == "Varna"),
-                UserWords = new[] {"мишка", "игла", "арка", "акула", "ластик"}
+                UserWords = userWords,
+                WordsPoints = userWords.ToList().Select(this.WordAssessor.GetPointsByWord).ToList()
             };
 
             return View(showBoardModel);

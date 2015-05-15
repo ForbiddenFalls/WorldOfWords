@@ -1,5 +1,7 @@
 ﻿namespace Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNet.Identity;
@@ -8,6 +10,33 @@
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class User : IdentityUser
     {
+        private const long StartPoints = 1000;
+
+        private ICollection<WordsUsers> words;
+        private ICollection<Board> boards;
+
+        public User()
+        {
+            this.words = new HashSet<WordsUsers>();
+            this.boards = new HashSet<Board>();
+        }
+
+        [DefaultValue(0)]
+        public long EarnedPoints { get; set; }
+
+        [DefaultValue(StartPoints)]
+        public int Balance { get; set; }
+
+        public virtual ICollection<WordsUsers> Words
+        {
+            get { return this.words; }
+        }
+
+        public virtual ICollection<Board> Boards
+        {
+            get { return this.boards; }
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

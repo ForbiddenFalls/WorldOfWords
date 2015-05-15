@@ -27,6 +27,11 @@
             get { return (BoardsRepository)this.GetRepository<Board>(); }
         }
 
+        public LettersPointsRepository LettersPoints
+        {
+            get { return (LettersPointsRepository)this.GetRepository<LettersPoints>(); }
+        }
+
         public int SaveChanges()
         {
             return this.context.SaveChanges();
@@ -44,9 +49,14 @@
                     typeOfRepository = typeof(UsersRepository);
                 }
 
-                if (type.IsAssignableFrom(typeof(Board)))
+                if (type.IsAssignableFrom(typeof (Board)))
                 {
-                    typeOfRepository = typeof(BoardsRepository);
+                    typeOfRepository = typeof (BoardsRepository);
+                }
+
+                if (type.IsAssignableFrom(typeof(LettersPoints)))
+                {
+                    typeOfRepository = typeof(LettersPointsRepository);
                 }
 
                 var repository = Activator.CreateInstance(typeOfRepository, this.context);

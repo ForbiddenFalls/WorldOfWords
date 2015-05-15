@@ -18,7 +18,7 @@ app.word = function () {
 
     function drag(ev) {
         ev.originalEvent.dataTransfer.setData('text/plain', 'anything');
-        $htmlWord = $(this);
+        $htmlWord = $(this).parent();
     }
 
     function rotate(ev) {
@@ -97,7 +97,7 @@ app.board = function (word) {
             end = start + word.getWord().length - 1;
 
             if (parseInt(start / size) != parseInt(end / size)) {
-                return false
+                return false;
             }
         }
 
@@ -124,15 +124,16 @@ app.board = function (word) {
             s = 1;
         }
 
+        var currentCell;
         for (i in wordAsText) {
-            var currentCell = $cells[startPosition + Number(i) * s];
+            currentCell = $cells[startPosition + Number(i) * s];
             if (currentCell.innerHTML !== wordAsText[i] && currentCell.innerHTML !== '&nbsp;') {
                 return;
             }
         }
 
         for (i in wordAsText) {
-            var currentCell = $cells[startPosition + Number(i) * s];
+            currentCell = $cells[startPosition + Number(i) * s];
             currentCell.innerHTML = wordAsText[i];
         }
 

@@ -6,10 +6,11 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using WorldOfWords.Web.Models;
 
 namespace WorldOfWords.Web.Controllers
 {
+    using ViewsModels;
+
     [Authorize]
     public class ManageController : Controller
     {

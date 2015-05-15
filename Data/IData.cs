@@ -8,6 +8,8 @@
 
         BoardsRepository Boards { get; }
 
+        LettersPointsRepository LettersPoints { get; }
+
         int SaveChanges();
     }
 }
