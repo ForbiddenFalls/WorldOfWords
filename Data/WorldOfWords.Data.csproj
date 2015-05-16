@@ -72,9 +72,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Models\WOrldOfWords.Models.csproj">
+    <ProjectReference Include="..\Models\WorldOfWords.Models.csproj">
       <Project>{57409d38-1742-4799-81d1-cbf69ecaa22c}</Project>
-      <Name>WOrldOfWords.Models</Name>
+      <Name>WorldOfWords.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

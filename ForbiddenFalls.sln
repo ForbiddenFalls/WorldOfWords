@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldOfWords.Data", "Data\WorldOfWords.Data.csproj", "{8D2C83C6-23C2-45B0-A3D7-8D1656466328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WOrldOfWords.Models", "Models\WOrldOfWords.Models.csproj", "{57409D38-1742-4799-81D1-CBF69ECAA22C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldOfWords.Models", "Models\WorldOfWords.Models.csproj", "{57409D38-1742-4799-81D1-CBF69ECAA22C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldOfWords.Web", "WorldOfWords.Web\WorldOfWords.Web.csproj", "{20428A84-9225-426F-BD3D-BC155C75C2F5}"
 EndProject

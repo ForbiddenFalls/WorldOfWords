@@ -49,12 +49,22 @@
     }
 }
 
-    @section loadBoard {
+    @section initialize {
         <script src="~/scripts/words.js"></script>
         <script>
             app.board.setSize(@Model.Board.Size);
             app.board.loadBoard('@Html.Raw(Model.Board.Content)');
         </script>
+        <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+        <script src="~/signalr/hubs"></script>
+        <script>
+            var boardHub = $.connection.boardsHub;
+            $.connection.hub.start().done(function() {
+                boardHub.server.joinBoard("imetoNaBorda");
+            });
+
+            boardHub.server.wordAdded(boardContent, "ime na borda");
+
+    
+        </script>
     }
-
-
