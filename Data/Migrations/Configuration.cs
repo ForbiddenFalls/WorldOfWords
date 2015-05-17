@@ -16,7 +16,9 @@
 
         protected override void Seed(WorldOfWordsDbContext context)
         {
+            context.Words.Delete();
             addWordsToDb(context);
+
             var sizeBoard = 10;
             context.Boards.Delete();
             var boardVarna = new Board()
@@ -90,7 +92,8 @@
             {
                 var wordEntity = new Word()
                 {
-                    Content = word
+                    Content = word,
+                    DateAdded = DateTime.Now
                 };
                 context.Words.Add(wordEntity);
             }

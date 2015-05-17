@@ -1,5 +1,6 @@
 ﻿namespace Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -18,6 +19,9 @@
 
         [Required]
         public string Content { get; set; }
+
+        [Required]
+        public DateTime DateAdded { get; set; }
 
         public virtual ICollection<Board> Boards
         {

@@ -9,17 +9,29 @@
 {
     <p>
         Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        <input type="submit" value="Search"/>
     </p>
 }
 
 <table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Word", "Index", new {sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})
+        </th>
+        <th>
+            @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
+        </th>
+        <th>Buy</th>
+    </tr>
 
     @foreach (var word in Model)
     {
         <tr>
             <td>
                 @word.Content
+            </td>
+            <td>
+                @word.DateAdded
             </td>
             <td>
                 Buy
@@ -32,4 +44,4 @@
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, currentFilter = ViewBag.CurrentFilter }))
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
