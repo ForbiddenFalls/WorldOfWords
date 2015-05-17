@@ -28,7 +28,7 @@ namespace WorldOfWords.Web.Common
 
         public int GetPointsByLetter(char letter)
         {
-            var letterEntity = this.lettersPoints.FirstOrDefault(l => l.Letter == letter);
+            var letterEntity = this.lettersPoints.FirstOrDefault(l => l.Letter[0] == letter);
             if (letterEntity == null)
             {
                 throw new InvalidOperationException("Invalid letter");

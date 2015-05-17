@@ -60,13 +60,13 @@
 
             var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
 
-            var letters = "абвгдежзийклмнопрстуфхцчшщъью".ToCharArray();
+            var letters = "абвгдежзийклмнопрстуфхцчшщъьюя";
             var points =
-                "1,2,1,3,2,1,4,4,1,5,2,2,2,1,1,1,1,1,1,5,10,5,8,5,8,10,3,10,10,5".Split(',').ToList().Select(int.Parse).ToList();
+                "1,2,1,3,2,1,4,4,1,5,2,2,2,1,1,1,1,1,1,5,10,5,8,5,8,10,3,10,10,5, 6".Split(',').ToList().Select(int.Parse).ToList();
 
             for (int i = 0; i < letters.Length; i++)
             {
-                var l = new LettersPoints { LanguageId = language.Id, Letter = letters[i], Points = points[i] };
+                var l = new LettersPoints { LanguageId = language.Id, Letter = letters[i].ToString(), Points = points[i] };
                 context.LettersPoints.Add(l);
             }
 
