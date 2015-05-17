@@ -6,10 +6,20 @@ using System.Web.Mvc;
 
 namespace WorldOfWords.Web.Controllers
 {
-    public class HomeController : Controller
+    using Microsoft.AspNet.Identity;
+
+    public class HomeController : BaseController
     {
+        [Authorize(Roles = "Users")]
         public ActionResult Index()
         {
+            string userId = User.Identity.GetUserId();
+            var userStats = this.Data.Users.All()
+                .FirstOrDefault(u => u.Id == userId);
+            ViewBag.userStats = userStats;
+
+
+
             return View();
         }
 

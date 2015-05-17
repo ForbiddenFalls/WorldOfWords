@@ -16,7 +16,9 @@
 
         protected override void Seed(WorldOfWordsDbContext context)
         {
-            context.Words.Delete();
+            if (!context.Words.Any())
+            {
+            
             addWordsToDb(context);
 
             var sizeBoard = 10;
@@ -72,7 +74,9 @@
             }
 
             context.SaveChanges();
+            }
         }
+
 
         private void addWordsToDb(WorldOfWordsDbContext context)
         {
@@ -85,7 +89,10 @@
                 "круша",
                 "слива",
                 "дънки",
-                "ластик"
+                "ластик",
+                "жаба",
+                "кунбенизон",
+                "абрихт",
             };
 
             foreach (var word in words)
