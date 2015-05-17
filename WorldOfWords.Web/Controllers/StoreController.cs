@@ -62,7 +62,7 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult BuyWord()
         {
-            
+            return null;
         }
     }
 }
