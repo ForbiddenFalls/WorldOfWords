@@ -79,23 +79,8 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult BuyWord(int id)
         {
-            var currentUser = this.User.Identity.GetUserId();
-
-            var userDb = this.Data.Users.FirstOrDefault(u => u.Id == currentUser);
-            var balanceOfUser = userDb.Balance;
-
-            var word = this.Data.Words.FirstOrDefault(w => w.Id == id);
-            var balanceNeededForWord = new Assessor(word.LanguageId).GetPointsByWord(word.Content);
-
-            if (balanceOfUser < balanceNeededForWord)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Not enought balance");
-            }
-
-            userDb.Balance = userDb.Balance - balanceNeededForWord;
-            this.Data.SaveChanges();
-            
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "not enough money");
+            return this.Content("asd");
         }
     }
 }
