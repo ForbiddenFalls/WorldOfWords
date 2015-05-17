@@ -16,9 +16,10 @@
 
         protected override void Seed(WorldOfWordsDbContext context)
         {
-            if (!context.Words.Any())
-            {
-            
+            //Prevent loop Seed
+            if (context.Words.Any()) return;
+            if (context.Boards.Any()) return;
+
             addWordsToDb(context);
 
             var sizeBoard = 10;
@@ -27,7 +28,7 @@
             {
                 Name = "Varna",
                 Size = sizeBoard,
-                Content = "{\"content\":\""+ new String(' ', sizeBoard*sizeBoard) +"\",\"words\":[]}",
+                Content = "{\"content\":\"" + new String(' ', sizeBoard * sizeBoard) + "\",\"words\":[]}",
                 ExpirationDate = DateTime.Now,
             };
 
@@ -36,7 +37,7 @@
             {
                 Name = "Sofia",
                 Size = sizeBoard,
-                Content = "{\"content\":\""+ new String(' ', sizeBoard*sizeBoard) +"\",\"words\":[]}",
+                Content = "{\"content\":\"" + new String(' ', sizeBoard * sizeBoard) + "\",\"words\":[]}",
                 ExpirationDate = DateTime.Now,
             };
 
@@ -56,9 +57,9 @@
             context.Languages.Delete();
 
             var language = new Language
-                {
-                    LanguageCode = "bg"
-                };
+            {
+                LanguageCode = "bg"
+            };
 
             context.Languages.Add(language);
             context.SaveChanges();
@@ -66,15 +67,14 @@
             var letters = "абвгдежзийклмнопрстуфхцчшщъью".ToCharArray();
             var points =
                 "1,2,1,3,2,1,4,4,1,5,2,2,2,1,1,1,1,1,1,5,10,5,8,5,8,10,3,10,10,5".Split(',').ToList().Select(int.Parse).ToList();
-            
+
             for (int i = 0; i < letters.Length; i++)
             {
-                var l = new LettersPoints {LanguageCode = language.Id, Letter = letters[i], Points = points[i]};
+                var l = new LettersPoints { LanguageCode = language.Id, Letter = letters[i], Points = points[i] };
                 context.LettersPoints.Add(l);
             }
 
             context.SaveChanges();
-            }
         }
 
 
