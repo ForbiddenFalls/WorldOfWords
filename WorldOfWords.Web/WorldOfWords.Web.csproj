@@ -181,6 +181,7 @@
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,6 +259,7 @@
     <Content Include="Views\Boards\_LayoutBoard.cshtml" />
     <Content Include="Views\Boards\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_UserMenu.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

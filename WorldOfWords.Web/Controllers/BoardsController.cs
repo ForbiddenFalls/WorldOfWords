@@ -13,7 +13,7 @@
 
             var showBoardModel = new ShowBoardModel
             {
-                Board = this.Data.Boards.All().FirstOrDefault(b => b.Name == "Varna"),
+                Board = this.Data.Boards.FirstOrDefault(b => b.Name == "Varna"),
                 UserWords = userWords,
                 //WordsPoints = userWords.ToList().Select(this.WordAssessor.GetPointsByWord).ToList()
             };

@@ -4,9 +4,9 @@
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
 
-    public class AppDbContext : IdentityDbContext<User>
+    public class WorldOfWordsDbContext : IdentityDbContext<User>
     {
-        public AppDbContext()
+        public WorldOfWordsDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
@@ -21,9 +21,9 @@
 
         public DbSet<Language> Languages { get; set; }
 
-        public static AppDbContext Create()
+        public static WorldOfWordsDbContext Create()
         {
-            return new AppDbContext();
+            return new WorldOfWordsDbContext();
         }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)

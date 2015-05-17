@@ -11,10 +11,10 @@
         //private IList<int> points = null;
         //private string letters = null;
 
-        //public Assessor(string language, AppDbContext context)
+        //public Assessor(string language, WorldOfWordsDbContext context)
         //{
-        //    var data = new Data(context);
-        //    var lettersPointsForLanguage = data.LettersPoints.All().FirstOrDefault(l => l.Language == language);
+        //    var data = new WorldOfWordsData(context);
+        //    var lettersPointsForLanguage = data.LettersPoints.FirstOrDefault(l => l.Language == language);
         //    if (lettersPointsForLanguage == null)
         //    {
         //        throw new ArgumentException("Language is not found");

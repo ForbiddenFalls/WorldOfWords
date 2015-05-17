@@ -1,4 +1,6 @@
-﻿namespace WorldOfWords.Web.Controllers
+﻿using Data.Contracts;
+
+namespace WorldOfWords.Web.Controllers
 {
     using System.Data.Entity;
     using System.Web.Mvc;
@@ -12,13 +14,13 @@
 
         protected BaseController()
         {
-            var context = new AppDbContext();
-            this.Data = new Data(context);
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppDbContext, Configuration>());
+            var context = new WorldOfWordsDbContext();
+            this.Data = new WorldOfWordsData(context);
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<WorldOfWordsDbContext, Configuration>());
             //this.WordAssessor = new Assessor(Language.ToLower(), context);
         }
 
-        protected IData Data { get; set; }
+        protected IWorldOfWordsData Data { get; set; }
 
         protected Assessor WordAssessor { get; set; }
     }

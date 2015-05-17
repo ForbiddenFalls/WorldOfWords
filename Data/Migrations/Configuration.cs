@@ -6,7 +6,7 @@
     using EntityFramework.Extensions;
     using Models;
 
-    public sealed class Configuration : DbMigrationsConfiguration<AppDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<WorldOfWordsDbContext>
     {
         public Configuration()
         {
@@ -14,8 +14,9 @@
             AutomaticMigrationDataLossAllowed = false;
         }
 
-        protected override void Seed(AppDbContext context)
+        protected override void Seed(WorldOfWordsDbContext context)
         {
+            addWordsToDb(context);
             var sizeBoard = 10;
             context.Boards.Delete();
             var boardVarna = new Board()
@@ -69,6 +70,30 @@
             }
 
             context.SaveChanges();
+        }
+
+        private void addWordsToDb(WorldOfWordsDbContext context)
+        {
+            var words = new string[]
+            {
+                "котка",
+                "куче",
+                "ехо",
+                "ябълка",
+                "круша",
+                "слива",
+                "дънки",
+                "ластик"
+            };
+
+            foreach (var word in words)
+            {
+                var wordEntity = new Word()
+                {
+                    Content = word
+                };
+                context.Words.Add(wordEntity);
+            }
         }
     }
 }

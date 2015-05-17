@@ -20,9 +20,6 @@ namespace WorldOfWords.Web.Hubs
             this.Clients.Group(boardName).updateBoard(content);
         }
 
-        public override Task OnDisconnected(bool stopCalled)
-        {
-            Context.ConnectionId // Trqbwa da iztriem tozi chovek ot wsichki grupi
-        }
+       
     }
 }
