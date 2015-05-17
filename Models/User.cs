@@ -1,5 +1,6 @@
 ﻿namespace Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Security.Claims;
@@ -17,6 +18,7 @@
 
         public User()
         {
+            this.RegisteredOn = DateTime.Now;
             this.words = new HashSet<WordsUsers>();
             this.boards = new HashSet<Board>();
         }
@@ -26,6 +28,8 @@
 
         [DefaultValue(StartPoints)]
         public int Balance { get; set; }
+
+        public DateTime RegisteredOn { get; set; }
 
         public virtual ICollection<WordsUsers> Words
         {
