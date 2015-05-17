@@ -1,5 +1,35 @@
-﻿@{
+﻿@model PagedList.IPagedList<Models.Word>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-dasdsa
+@using (Html.BeginForm("Index", "Store", FormMethod.Get))
+{
+    <p>
+        Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+
+    @foreach (var word in Model)
+    {
+        <tr>
+            <td>
+                @word.Content
+            </td>
+            <td>
+                Buy
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))
