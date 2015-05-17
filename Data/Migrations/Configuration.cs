@@ -4,6 +4,8 @@
     using System.Data.Entity.Migrations;
     using System.Linq;
     using EntityFramework.Extensions;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
 
     public sealed class Configuration : DbMigrationsConfiguration<WorldOfWordsDbContext>
@@ -19,8 +21,10 @@
             //Prevent loop Seed
             if (context.Words.Any()) return;
             if (context.Boards.Any()) return;
+            if (context.Roles.Any()) return;
 
-            addWordsToDb(context);
+            AddWordsToDb(context);
+            AddRolesToDb(context);
 
             var sizeBoard = 10;
             context.Boards.Delete();
@@ -77,8 +81,36 @@
             context.SaveChanges();
         }
 
+        private void AddRolesToDb(WorldOfWordsDbContext context)
+        {
+            var storeRole = new RoleStore<IdentityRole>(context);
+            var managerRole = new RoleManager<IdentityRole>(storeRole);
+            var adminRole = new IdentityRole { Name = "admin" };
+            var userRole = new IdentityRole { Name = "user" };
+            var moderatorRole = new IdentityRole { Name = "moderator" };
+            managerRole.Create(adminRole);
+            managerRole.Create(userRole);
+            managerRole.Create(moderatorRole);
 
-        private void addWordsToDb(WorldOfWordsDbContext context)
+            var storeUser = new UserStore<User>(context);
+            var managerUser = new UserManager<User>(storeUser);
+
+            var admin = new User { UserName = "admin@admin.a", Email = "admin@admin.a" };
+            var moderator = new User { UserName = "moderator@mod.m", Email = "moderator@mod.m" };
+            var resultUser = managerUser.Create(admin, "Aa#123456");
+            var resultmod = managerUser.Create(moderator, "Aa#123456");
+            context.SaveChanges();
+
+            var adminResult = context.Users.FirstOrDefault(x => x.UserName == "admin@admin.a");
+            var moderatorResult = context.Users.FirstOrDefault(x => x.UserName == "moderator@mod.m");
+            managerUser.AddToRole(adminResult.Id, "admin");
+            managerUser.AddToRole(moderatorResult.Id, "moderator");
+            context.SaveChanges();
+
+        }
+
+
+        private void AddWordsToDb(WorldOfWordsDbContext context)
         {
             var words = new string[]
             {

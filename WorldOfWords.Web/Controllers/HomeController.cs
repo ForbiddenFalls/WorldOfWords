@@ -10,15 +10,17 @@ namespace WorldOfWords.Web.Controllers
 
     public class HomeController : BaseController
     {
-        [Authorize(Roles = "Users")]
         public ActionResult Index()
         {
-            string userId = User.Identity.GetUserId();
-            var userStats = this.Data.Users.All()
-                .FirstOrDefault(u => u.Id == userId);
-            ViewBag.userStats = userStats;
+            if (User.Identity.IsAuthenticated)
+            {
+                string userId = User.Identity.GetUserId();
+                var userStats = this.Data.Users.All()
+                    .FirstOrDefault(u => u.Id == userId);
+                ViewBag.userStats = userStats;
 
-
+            }
+           
 
             return View();
         }
