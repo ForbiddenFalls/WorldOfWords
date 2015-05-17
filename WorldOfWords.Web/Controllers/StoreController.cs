@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
@@ -62,7 +63,8 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult BuyWord()
         {
-            
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "not enough money");
+            return this.Content("asd");
         }
     }
 }
