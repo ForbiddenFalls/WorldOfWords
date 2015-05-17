@@ -21,7 +21,11 @@
         <th>
             @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
         </th>
-        <th>Buy</th>
+        <th>@Html.ActionLink("Buy", "BuyWord", new AjaxOptions()
+            {
+                OnSuccess = "successfulBuy",
+                OnFailure = "failedBuy",
+            })</th>
     </tr>
 
     @foreach (var word in Model)
@@ -45,3 +49,15 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+
+<
+<script>
+    function successfulBuy() {
+        alert("You successfuly bought this word");
+    }
+
+    function failedBuy(error) {
+        alert(error);
+    }
+</script>

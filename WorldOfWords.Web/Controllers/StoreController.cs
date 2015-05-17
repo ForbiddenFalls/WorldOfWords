@@ -59,5 +59,10 @@ namespace WorldOfWords.Web.Controllers
             int pageNumber = (page ?? 1);
             return View(words.ToPagedList(pageNumber, PageSize));
         }
+
+        public ActionResult BuyWord()
+        {
+            
+        }
     }
 }
