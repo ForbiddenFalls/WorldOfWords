@@ -12,7 +12,7 @@
         <input type="submit" value="Search"/>
     </p>
 }
-
+<div id="test"></div>
 <table class="table">
     <tr>
         <th>
@@ -21,8 +21,10 @@
         <th>
             @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
         </th>
-        <th>@Html.ActionLink("Buy", "BuyWord", new AjaxOptions()
+        <th>@Ajax.ActionLink("Buy", "BuyWord", new AjaxOptions()
             {
+                UpdateTargetId = "test",
+                HttpMethod = "GET",
                 OnSuccess = "successfulBuy",
                 OnFailure = "failedBuy",
             })</th>
@@ -50,8 +52,6 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-
-<
 <script>
     function successfulBuy() {
         alert("You successfuly bought this word");
