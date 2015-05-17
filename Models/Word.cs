@@ -23,6 +23,10 @@
         [Required]
         public DateTime DateAdded { get; set; }
 
+        public int LanguageId { get; set; }
+
+        public virtual Language Language { get; set; }
+
         public virtual ICollection<Board> Boards
         {
             get { return this.board; }

@@ -1,4 +1,7 @@
-﻿namespace WorldOfWords.Web.Common
+﻿using Microsoft.Ajax.Utilities;
+using Models;
+
+namespace WorldOfWords.Web.Common
 {
     using System;
     using System.Collections.Generic;
@@ -8,45 +11,41 @@
 
     public class Assessor
     {
-        //private IList<int> points = null;
-        //private string letters = null;
+        private List<LettersPoints> lettersPoints;
 
-        //public Assessor(string language, WorldOfWordsDbContext context)
-        //{
-        //    var data = new WorldOfWordsData(context);
-        //    var lettersPointsForLanguage = data.LettersPoints.FirstOrDefault(l => l.Language == language);
-        //    if (lettersPointsForLanguage == null)
-        //    {
-        //        throw new ArgumentException("Language is not found");
-        //    }
+        public Assessor(int languageId, WorldOfWordsDbContext context)
+        {
+            var data = new WorldOfWordsData(context);
 
-        //    this.letters = lettersPointsForLanguage.Letters;
-        //    this.points = lettersPointsForLanguage.Points
-        //        .Split(',')
-        //        .Select(int.Parse)
-        //        .ToList();
-        //}
+            this.lettersPoints = data.LettersPoints.Where(l => l.LanguageId == languageId).ToList();
+        }
 
-        //public int GetPointsByLetter(char letter)
-        //{
-        //    var index = this.letters.IndexOf(letter);
-        //    if (index < 0)
-        //    {
-        //        throw new ArgumentException("Letter " + letter +" is not fount", "letter");
-        //    }
+        public Assessor(int languageId)
+            : this(languageId, new WorldOfWordsDbContext())
+        {
+          
+        }
 
-        //    return this.points[index];
-        //}
+        public int GetPointsByLetter(char letter)
+        {
+            var letterEntity = this.lettersPoints.FirstOrDefault(l => l.Letter == letter);
+            if (letterEntity == null)
+            {
+                throw new InvalidOperationException("Invalid letter");
+            }
 
-        //public int GetPointsByWord(string word)
-        //{
-        //    var wordPoints = word
-        //        .ToCharArray()
-        //        .ToList()
-        //        .Select(this.GetPointsByLetter)
-        //        .Sum();
+            return letterEntity.Points;
+        }
 
-        //    return wordPoints;
-        //}
+        public int GetPointsByWord(string word)
+        {
+            var wordPoints = word
+                .ToCharArray()
+                .ToList()
+                .Select(this.GetPointsByLetter)
+                .Sum();
+
+            return wordPoints;
+        }
     }
 }

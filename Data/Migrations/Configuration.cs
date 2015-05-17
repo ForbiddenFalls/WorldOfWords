@@ -21,13 +21,14 @@
             //Prevent loop Seed
             if (context.Words.Any()) return;
             if (context.Boards.Any()) return;
-            if (context.Roles.Any()) return;
+            if (context.Languages.Any()) return;
 
+            AddLanguagesToDb(context);
             AddWordsToDb(context);
             AddRolesToDb(context);
 
             var sizeBoard = 10;
-            context.Boards.Delete();
+
             var boardVarna = new Board()
             {
                 Name = "Varna",
@@ -57,16 +58,7 @@
             context.Boards.Add(boardPlovdiv);
             context.Boards.Add(boardVarna);
 
-            context.LettersPoints.Delete();
-            context.Languages.Delete();
-
-            var language = new Language
-            {
-                LanguageCode = "bg"
-            };
-
-            context.Languages.Add(language);
-            context.SaveChanges();
+            var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
 
             var letters = "абвгдежзийклмнопрстуфхцчшщъью".ToCharArray();
             var points =
@@ -74,7 +66,7 @@
 
             for (int i = 0; i < letters.Length; i++)
             {
-                var l = new LettersPoints { LanguageCode = language.Id, Letter = letters[i], Points = points[i] };
+                var l = new LettersPoints { LanguageId = language.Id, Letter = letters[i], Points = points[i] };
                 context.LettersPoints.Add(l);
             }
 
@@ -109,6 +101,19 @@
 
         }
 
+        private void AddLanguagesToDb(WorldOfWordsDbContext context)
+        {
+            var languageCodes = new string[] {"bg"};
+            foreach (var languageCode in languageCodes)
+            {
+                context.Languages.Add(new Language()
+                {
+                    LanguageCode = languageCode
+                });
+            }
+
+            context.SaveChanges();
+        }
 
         private void AddWordsToDb(WorldOfWordsDbContext context)
         {
@@ -129,13 +134,17 @@
 
             foreach (var word in words)
             {
+                var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
                 var wordEntity = new Word()
                 {
                     Content = word,
-                    DateAdded = DateTime.Now
+                    DateAdded = DateTime.Now,
+                    Language = language
                 };
                 context.Words.Add(wordEntity);
             }
+
+            context.SaveChanges();
         }
     }
 }

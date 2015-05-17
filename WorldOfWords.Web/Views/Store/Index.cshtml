@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<WorldOfWords.Web.ViewsModels.WordWithCount>
 @using PagedList.Mvc;
+@using WorldOfWords.Web.Common
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,6 +23,7 @@
             @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
         </th>
         <th>Quantity That You Have</th>
+        <th>Price</th>
         <th>Buy</th>
     </tr>
 
@@ -36,6 +38,9 @@
             </td>
             <td>
                 @(word.Count ?? 0)
+            </td>
+            <td>
+                @(ViewBag.Assessor.GetPointsByWord(word.Content))
             </td>
             <td>
                 @Ajax.ActionLink("Buy",

@@ -7,7 +7,7 @@
         public int Id { get; set; }
 
         [Required]
-        public int LanguageCode { get; set; }
+        public int LanguageId { get; set; }
 
         [Required]
         public char Letter { get; set; }

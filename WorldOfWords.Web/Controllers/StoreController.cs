@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using WorldOfWords.Web.Common;
 using WorldOfWords.Web.ViewsModels;
 
 namespace WorldOfWords.Web.Controllers
@@ -18,13 +19,17 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
+            var languageCode = "bg";
+            ViewBag.Assessor = new Assessor(this.Data.Languages.FirstOrDefault(l => l.LanguageCode == languageCode).Id);
+
             var currentUser = User.Identity.GetUserId();
             var words = this.Data.Words
                 .Select(w => new WordWithCount
                 {
                     Id = w.Id,
                     Content = w.Content,
-                    Count = w.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == w.Id).WordCount 
+                    Count = w.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == w.Id).WordCount,
+                    LanguageId = w.LanguageId
                 })
                 .AsQueryable();
 
