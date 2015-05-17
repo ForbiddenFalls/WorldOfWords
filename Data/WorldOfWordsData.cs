@@ -47,6 +47,11 @@ namespace Data
             get { return this.GetGenericRepository<Language>(); }
         }
 
+        public EFRepository<Word> Words
+        {
+            get { return this.GetGenericRepository<Word>(); }
+        }
+
         public void SaveChanges()
         {
             this.context.SaveChanges();
