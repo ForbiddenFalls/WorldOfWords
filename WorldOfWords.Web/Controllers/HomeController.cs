@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace WorldOfWords.Web.Controllers
 {
-    using System.Data.Entity;
     using Microsoft.AspNet.Identity;
 
     public class HomeController : BaseController
@@ -19,18 +18,11 @@ namespace WorldOfWords.Web.Controllers
                 var userStats = this.Data.Users.All()
                     .FirstOrDefault(u => u.Id == userId);
                 ViewBag.userStats = userStats;
-                
-                return View();
-            }
-            else
-            {
-                var boards = this.Data.Boards.All().Select(b=>b);
-                ViewBag.boards = boards;
-                
-                return View();
-            }
 
-            
+            }
+           
+
+            return View();
         }
 
         public ActionResult About()
