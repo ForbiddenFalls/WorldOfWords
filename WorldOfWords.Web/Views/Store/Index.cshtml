@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<Models.Word>
+﻿@model PagedList.IPagedList<WorldOfWords.Web.ViewsModels.WordWithCount>
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
@@ -21,13 +21,8 @@
         <th>
             @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
         </th>
-        <th>@Ajax.ActionLink("Buy", "BuyWord", new AjaxOptions()
-            {
-                UpdateTargetId = "test",
-                HttpMethod = "GET",
-                OnSuccess = "successfulBuy",
-                OnFailure = "failedBuy",
-            })</th>
+        <th>Quantity That You Have</th>
+        <th>Buy</th>
     </tr>
 
     @foreach (var word in Model)
@@ -40,7 +35,18 @@
                 @word.DateAdded
             </td>
             <td>
-                Buy
+                @(word.Count ?? 0)
+            </td>
+            <td>
+                @Ajax.ActionLink("Buy",
+                "BuyWord",
+                new { id = @word.Id }, 
+                new AjaxOptions()
+                {
+                    OnSuccess = "successfulBuy",
+                    OnFailure = "failedBuy",
+                },
+                new { @class = "btn btn-primary"})
             </td>
         </tr>
     }

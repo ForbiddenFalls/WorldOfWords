@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using PagedList;
+using WorldOfWords.Web.ViewsModels;
 
 namespace WorldOfWords.Web.Controllers
 {
@@ -15,7 +18,15 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
-            var words = this.Data.Words.AsQueryable();
+            var currentUser = User.Identity.GetUserId();
+            var words = this.Data.Words
+                .Select(w => new WordWithCount
+                {
+                    Id = w.Id,
+                    Content = w.Content,
+                    Count = w.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == w.Id).WordCount 
+                })
+                .AsQueryable();
 
             #region Search
             if (searchString != null)
@@ -61,7 +72,7 @@ namespace WorldOfWords.Web.Controllers
             return View(words.ToPagedList(pageNumber, PageSize));
         }
 
-        public ActionResult BuyWord()
+        public ActionResult BuyWord(int id)
         {
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "not enough money");
             return this.Content("asd");
