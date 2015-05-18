@@ -5,71 +5,72 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@using (Html.BeginForm("Index", "Store", FormMethod.Get))
-{
-    <p>
-        Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
-    </p>
-}
-<div id="test"></div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("Word", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Date Added", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>Quantity That You Have</th>
-        <th>Price</th>
-        <th>Buy</th>
-    </tr>
-
-    @foreach (var word in Model)
+<div id="store">
+    @using (Html.BeginForm("Index", "Store", FormMethod.Get))
     {
-        <tr>
-            <td>
-                @word.Content
-            </td>
-            <td>
-                @word.DateAdded
-            </td>
-            <td>
-                @(word.Count ?? 0)
-            </td>
-            <td>
-                @(ViewBag.Assessor.GetPointsByWord(word.Content))
-            </td>
-            <td>
-                @Ajax.ActionLink("Buy",
-                "BuyWord",
-                new { id = @word.Id },
-                new AjaxOptions()
-                {
-                    OnSuccess = "successfulBuy",
-                    OnFailure = "failedBuy",
-                },
-                new { @class = "btn btn-primary" })
-            </td>
-        </tr>
+        <p>
+            Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search"/>
+        </p>
     }
+    <div id="test"></div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Word", "Index", new {sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})
+            </th>
+            <th>
+                @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
+            </th>
+            <th>Quantity That You Have</th>
+            <th>Price</th>
+            <th>Buy</th>
+        </tr>
 
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @foreach (var word in Model)
+        {
+            <tr>
+                <td>
+                    @word.Content
+                </td>
+                <td>
+                    @word.DateAdded
+                </td>
+                <td>
+                    <div id="word-@word.Id-quantity">@(word.Quantity ?? 0)</div>
+                </td>
+                <td>
+                    @(ViewBag.Assessor.GetPointsByWord(word.Content))
+                </td>
+                <td>
+                    @Ajax.ActionLink("Buy",
+                        "BuyWord",
+                        new {id = @word.Id},
+                        new AjaxOptions()
+                        {
+                            OnSuccess = "successfulBuy",
+                            OnFailure = "failedBuy",
+                        },
+                        new {@class = "btn btn-primary"})
+                </td>
+            </tr>
+        }
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    </table>
+    <br/>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new {page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
+</div>
 
 <script>
-    function successfulBuy() {
+    function successfulBuy(data) {
+        $("#word-" + data.wordId + "-quantity").text(data.newQuantity);
         alert("You successfuly bought this word");
     }
 
     function failedBuy(error) {
-        console.log(error);
-        alert(error);
+        alert(error.statusText);
     }
 </script>

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using PagedList;
-using WorldOfWords.Web.Common;
-using WorldOfWords.Web.ViewsModels;
+﻿using System.Web.UI;
+using Models;
 
 namespace WorldOfWords.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Web.Helpers;
+    using System.Web.Mvc;
+    using Microsoft.AspNet.Identity;
+    using PagedList;
+    using WorldOfWords.Web.Common;
+    using WorldOfWords.Web.ViewsModels;
+
     [Authorize]
     public class StoreController : BaseController
     {
@@ -28,7 +29,7 @@ namespace WorldOfWords.Web.Controllers
                 {
                     Id = w.Id,
                     Content = w.Content,
-                    Count = w.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == w.Id).WordCount,
+                    Quantity = w.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == w.Id).WordCount,
                     LanguageId = w.LanguageId,
                     DateAdded = w.DateAdded
                 })
@@ -94,9 +95,24 @@ namespace WorldOfWords.Web.Controllers
             }
 
             userDb.Balance = userDb.Balance - balanceNeededForWord;
+
+            var userWord = userDb.Words.FirstOrDefault(w => w.WordId == id);
+            if (userWord != null)
+            {
+                userWord.WordCount++;
+            }
+            else
+            {
+                userDb.Words.Add(new WordsUsers()
+                {
+                    WordId = id,
+                    WordCount = 1
+                });
+            }
             this.Data.SaveChanges();
 
-            return new HttpStatusCodeResult(HttpStatusCode.OK);
+            var count = userDb.Words.FirstOrDefault(w => w.WordId == id).WordCount;
+            return Json(new { wordId = id, newQuantity = count }, JsonRequestBehavior.AllowGet);
         }
     }
 }
