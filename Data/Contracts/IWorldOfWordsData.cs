@@ -1,7 +1,6 @@
-﻿using Models;
-
-namespace Data.Contracts
+﻿namespace Data.Contracts
 {
+    using Models;
     using Data.Repositories;
 
     public interface IWorldOfWordsData
@@ -11,6 +10,7 @@ namespace Data.Contracts
         EFRepository<LettersPoints> LettersPoints { get; }
         EFRepository<Language> Languages { get; }
         EFRepository<Word> Words { get; }
+        EFRepository<StoreWord> StoreWords { get; }
 
 
         void SaveChanges();

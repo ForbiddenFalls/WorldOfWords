@@ -22,7 +22,8 @@
             <th>
                 @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
             </th>
-            <th>Quantity That You Have</th>
+            <th>Quantity</th>
+            <th>You Have</th>
             <th>Price</th>
             <th>Buy</th>
         </tr>
@@ -37,7 +38,10 @@
                     @word.DateAdded
                 </td>
                 <td>
-                    <div id="word-@word.Id-quantity">@(word.Quantity ?? 0)</div>
+                    <div id="word-@word.Id-quantity">@word.Quantity</div>
+                </td>
+                <td>
+                    <div id="word-@word.Id-user-quantity">@(word.QuantityUser ?? 0)</div>
                 </td>
                 <td>
                     @(ViewBag.Assessor.GetPointsByWord(word.Content))
@@ -67,6 +71,7 @@
 <script>
     function successfulBuy(data) {
         $("#word-" + data.wordId + "-quantity").text(data.newQuantity);
+        $("#word-" + data.wordId + "-user-quantity").text(data.newUserQuantity);
         alert("You successfuly bought this word");
     }
 

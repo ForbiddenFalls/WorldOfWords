@@ -24,7 +24,7 @@
             if (context.Languages.Any()) return;
 
             AddLanguagesToDb(context);
-            AddWordsToDb(context);
+            AddWordsToDbAndStore(context);
             AddRolesToDb(context);
 
             var sizeBoard = 10;
@@ -115,7 +115,7 @@
             context.SaveChanges();
         }
 
-        private void AddWordsToDb(WorldOfWordsDbContext context)
+        private void AddWordsToDbAndStore(WorldOfWordsDbContext context)
         {
             var words = new string[]
             {
@@ -132,9 +132,10 @@
                 "абрихт",
             };
 
+            var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
+
             foreach (var word in words)
             {
-                var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
                 var wordEntity = new Word()
                 {
                     Content = word,
@@ -142,6 +143,12 @@
                     Language = language
                 };
                 context.Words.Add(wordEntity);
+                context.StoreWords.Add(new StoreWord()
+                {
+                    DateAdded = DateTime.Now,
+                    Word = wordEntity,
+                    Quantity = 2
+                });
             }
 
             context.SaveChanges();

@@ -24,14 +24,15 @@ namespace WorldOfWords.Web.Controllers
             ViewBag.Assessor = new Assessor(this.Data.Languages.FirstOrDefault(l => l.LanguageCode == languageCode).Id);
 
             var currentUser = User.Identity.GetUserId();
-            var words = this.Data.Words
-                .Select(w => new WordWithCount
+            var words = this.Data.StoreWords
+                .Select(sw => new WordWithCount
                 {
-                    Id = w.Id,
-                    Content = w.Content,
-                    Quantity = w.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == w.Id).WordCount,
-                    LanguageId = w.LanguageId,
-                    DateAdded = w.DateAdded
+                    Id = sw.Word.Id,
+                    Content = sw.Word.Content,
+                    Quantity = sw.Quantity,
+                    QuantityUser = sw.Word.Users.FirstOrDefault(u => u.UserId == currentUser && u.WordId == sw.Id).WordCount,
+                    LanguageId = sw.Word.LanguageId,
+                    DateAdded = sw.DateAdded
                 })
                 .AsQueryable();
 
@@ -81,13 +82,18 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult BuyWord(int id)
         {
+            var storeWord = this.Data.StoreWords.FirstOrDefault(w => w.Word.Id == id);
+            if (storeWord == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "This word is not available at the moment");
+            }
+
             var currentUser = this.User.Identity.GetUserId();
 
             var userDb = this.Data.Users.FirstOrDefault(u => u.Id == currentUser);
             var balanceOfUser = userDb.Balance;
 
-            var word = this.Data.Words.FirstOrDefault(w => w.Id == id);
-            var balanceNeededForWord = new Assessor(word.LanguageId).GetPointsByWord(word.Content);
+            var balanceNeededForWord = new Assessor(storeWord.Word.LanguageId).GetPointsByWord(storeWord.Word.Content);
 
             if (balanceOfUser < balanceNeededForWord)
             {
@@ -95,6 +101,12 @@ namespace WorldOfWords.Web.Controllers
             }
 
             userDb.Balance = userDb.Balance - balanceNeededForWord;
+
+            storeWord.Quantity--;
+            if (storeWord.Quantity == 0)
+            {
+                this.Data.StoreWords.Delete(storeWord);
+            }
 
             var userWord = userDb.Words.FirstOrDefault(w => w.WordId == id);
             if (userWord != null)
@@ -111,8 +123,8 @@ namespace WorldOfWords.Web.Controllers
             }
             this.Data.SaveChanges();
 
-            var count = userDb.Words.FirstOrDefault(w => w.WordId == id).WordCount;
-            return Json(new { wordId = id, newQuantity = count }, JsonRequestBehavior.AllowGet);
+            var userQuantity = userDb.Words.FirstOrDefault(w => w.WordId == id).WordCount;
+            return Json(new { wordId = id, newQuantity = storeWord.Quantity, newUserQuantity = userQuantity }, JsonRequestBehavior.AllowGet);
         }
     }
 }

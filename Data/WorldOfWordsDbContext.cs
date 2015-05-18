@@ -15,6 +15,8 @@
 
         public DbSet<Word> Words { get; set; }
 
+        public DbSet<StoreWord> StoreWords { get; set; }
+
         public DbSet<WordsUsers> WordsUsers { get; set; }
 
         public DbSet<LettersPoints> LettersPoints { get; set; }
