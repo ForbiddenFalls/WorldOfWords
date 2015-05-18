@@ -10,17 +10,17 @@
 {
     <p>
         Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search"/>
+        <input type="submit" value="Search" />
     </p>
 }
 <div id="test"></div>
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Word", "Index", new {sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})
+            @Html.ActionLink("Word", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
+            @Html.ActionLink("Date Added", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>Quantity That You Have</th>
         <th>Price</th>
@@ -45,13 +45,13 @@
             <td>
                 @Ajax.ActionLink("Buy",
                 "BuyWord",
-                new { id = @word.Id }, 
+                new { id = @word.Id },
                 new AjaxOptions()
                 {
                     OnSuccess = "successfulBuy",
                     OnFailure = "failedBuy",
                 },
-                new { @class = "btn btn-primary"})
+                new { @class = "btn btn-primary" })
             </td>
         </tr>
     }
@@ -69,6 +69,7 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
     }
 
     function failedBuy(error) {
+        console.log(error);
         alert(error);
     }
 </script>
