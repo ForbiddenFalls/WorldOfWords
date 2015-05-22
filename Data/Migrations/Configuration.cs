@@ -33,7 +33,7 @@
             {
                 Name = "Varna",
                 Size = sizeBoard,
-                Content = "{\"content\":\"" + new String(' ', sizeBoard * sizeBoard) + "\",\"words\":[]}",
+                Content = new String(' ', sizeBoard * sizeBoard),
                 ExpirationDate = DateTime.Now,
             };
 

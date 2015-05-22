@@ -1,11 +1,11 @@
-﻿using Data.Contracts;
-
-namespace WorldOfWords.Web.Controllers
+﻿namespace WorldOfWords.Web.Controllers
 {
     using System.Data.Entity;
+    using System.Linq;
     using System.Web.Mvc;
     using Common;
     using Data;
+    using Data.Contracts;
     using Data.Migrations;
 
     public abstract class BaseController : Controller
@@ -17,7 +17,10 @@ namespace WorldOfWords.Web.Controllers
             var context = new WorldOfWordsDbContext();
             this.Data = new WorldOfWordsData(context);
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<WorldOfWordsDbContext, Configuration>());
-            //this.WordAssessor = new Assessor(Language.ToLower(), context);
+            var languageId = this.Data.Languages
+                .First(l => l.LanguageCode == Language).Id;
+
+            this.WordAssessor = new Assessor(languageId, context);
         }
 
         protected IWorldOfWordsData Data { get; set; }

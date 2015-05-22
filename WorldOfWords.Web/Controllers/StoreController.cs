@@ -108,14 +108,14 @@ namespace WorldOfWords.Web.Controllers
                 this.Data.StoreWords.Delete(storeWord);
             }
 
-            var userWord = userDb.Words.FirstOrDefault(w => w.WordId == id);
+            var userWord = userDb.WordsUsers.FirstOrDefault(w => w.WordId == id);
             if (userWord != null)
             {
                 userWord.WordCount++;
             }
             else
             {
-                userDb.Words.Add(new WordsUsers()
+                userDb.WordsUsers.Add(new WordsUsers()
                 {
                     WordId = id,
                     WordCount = 1
@@ -123,7 +123,7 @@ namespace WorldOfWords.Web.Controllers
             }
             this.Data.SaveChanges();
 
-            var userQuantity = userDb.Words.FirstOrDefault(w => w.WordId == id).WordCount;
+            var userQuantity = userDb.WordsUsers.FirstOrDefault(w => w.WordId == id).WordCount;
             return Json(new { wordId = id, newQuantity = storeWord.Quantity, newUserQuantity = userQuantity }, JsonRequestBehavior.AllowGet);
         }
     }

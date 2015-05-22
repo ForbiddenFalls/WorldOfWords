@@ -52,6 +52,11 @@ namespace Data
             get { return this.GetGenericRepository<Word>(); }
         }
 
+        public EFRepository<WordsUsers> WordsUsers
+        {
+            get { return this.GetGenericRepository<WordsUsers>(); }
+        }
+
         public EFRepository<StoreWord> StoreWords
         {
             get { return this.GetGenericRepository<StoreWord>(); }

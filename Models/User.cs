@@ -13,27 +13,27 @@
     {
         private const long StartPoints = 1000;
 
-        private ICollection<WordsUsers> words;
+        private ICollection<WordsUsers> wordsUsers;
         private ICollection<Board> boards;
 
         public User()
         {
             this.RegisteredOn = DateTime.Now;
-            this.words = new HashSet<WordsUsers>();
+            this.wordsUsers = new HashSet<WordsUsers>();
             this.boards = new HashSet<Board>();
         }
 
         [DefaultValue(0)]
         public long EarnedPoints { get; set; }
 
-        [DefaultValue(StartPoints)]
+        [DefaultValue(1000)]
         public int Balance { get; set; }
 
         public DateTime RegisteredOn { get; set; }
 
-        public virtual ICollection<WordsUsers> Words
+        public virtual ICollection<WordsUsers> WordsUsers
         {
-            get { return this.words; }
+            get { return this.wordsUsers; }
         }
 
         public virtual ICollection<Board> Boards

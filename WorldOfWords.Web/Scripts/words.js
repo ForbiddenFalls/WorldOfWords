@@ -2,8 +2,7 @@ var app = app || {};
 
 app.word = function () {
     var catchedLetterId,
-        $htmlWord,
-        isVerticalPosition = false;
+        $htmlWord;
 
     var $loadEvents = function () {
         var $words = $('.word');
@@ -28,8 +27,6 @@ app.word = function () {
         } else {
             $word.addClass('vertical');
         }
-
-        isVerticalPosition = !isVerticalPosition;
     }
 
     function getCatchedLetterId() {
@@ -47,13 +44,12 @@ app.word = function () {
     }
 
     function isVertical() {
-        return isVerticalPosition;
+        return $htmlWord.children(".word").hasClass('vertical');
     }
 
     function clear() {
         catchedLetterId = null;
         $htmlWord = null;
-        isVerticalPosition = false;
     }
 
     return {
@@ -62,27 +58,30 @@ app.word = function () {
         getHtmlWord: getHtmlWord,
         isVertical: isVertical,
         clear: clear
-    }
+    };
 }();
 
 
 
 app.board = function (word) {
-    var words = [],
+    var boardName = $('#boarName').text(),
+        words = [],
         dropCellId,
-        size,
-        startPosition;
+        size;
 
     function setSize(boardSize) {
         size = boardSize;
     }
 
+    function getName() {
+        return boardName;
+    }
 
     function allowDrop(ev) {
         ev.preventDefault();
     }
 
-    function isWordInBoard() {
+    function getStartPosition() {
         var start,
             end;
 
@@ -90,19 +89,18 @@ app.board = function (word) {
             start = dropCellId - word.getCatchedLetterId() * size;
             end = start + (word.getWord().length - 1) * size;
             if (start < 0 || end >= size * size) {
-                return false;
+                return -1;
             }
         } else {
             start = dropCellId - word.getCatchedLetterId();
             end = start + word.getWord().length - 1;
 
             if (parseInt(start / size) != parseInt(end / size)) {
-                return false;
+                return -1;
             }
         }
 
-        startPosition = start;
-        return true;
+        return start;
     }
 
     function hasWord() {
@@ -116,7 +114,8 @@ app.board = function (word) {
             wordAsText = word.getWord(),
             i;
 
-        if (!isWordInBoard() || hasWord()) {
+        var startPosition = getStartPosition();
+        if (startPosition < 0 || hasWord()) {
             return;
         }
 
@@ -127,6 +126,7 @@ app.board = function (word) {
         var currentCell;
         for (i in wordAsText) {
             currentCell = $cells[startPosition + Number(i) * s];
+            currentCell.innerHTML = currentCell.innerHTML.replace(/[ \n\r]+/g, '');
             if (currentCell.innerHTML !== wordAsText[i] && currentCell.innerHTML !== '&nbsp;') {
                 return;
             }
@@ -138,7 +138,6 @@ app.board = function (word) {
         }
 
         words.push(word.getWord());
-        //todo save in database with AJAX
         console.log(getBoardAsJson());
         word.getHtmlWord().remove();
         word.clear();
@@ -147,6 +146,7 @@ app.board = function (word) {
     function drop(ev) {
         ev.preventDefault();
         dropCellId = Number($(ev.target).attr('data-position'));
+        app.boardHub.addWordToBoard(boardName, word.getWord(), word.getCatchedLetterId(), word.isVertical(), dropCellId);
         pushWordInBoard();
     }
 
@@ -184,11 +184,40 @@ app.board = function (word) {
     }();
 
     return {
+        name: getName(),
         setSize: setSize,
         getBoardAsJson: getBoardAsJson,
         loadBoard: loadBoard
     };
 }(app.word);
+
+
+app.boardHub =function(board)
+{
+    var hub = $.connection.boardsHub;
+
+    $.connection.hub.start().done(function () {
+        hub.server.joinBoard(app.board.name);
+    });
+
+    hub.client.loadBoard = function(content) {
+        board.loadBoard(content);
+    };
+
+    function addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
+    {
+        hub.server.addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
+            .done(function(message) {
+            $("#message").append("<div>"+ message + "</div>");
+        });
+    }
+
+    return {
+        addWordToBoard: addWordToBoard
+    };
+}(app.board);
+
+
 
 app.board.setSize(5);
 

@@ -10,6 +10,7 @@
         EFRepository<LettersPoints> LettersPoints { get; }
         EFRepository<Language> Languages { get; }
         EFRepository<Word> Words { get; }
+        EFRepository<WordsUsers> WordsUsers { get; }
         EFRepository<StoreWord> StoreWords { get; }
 
 

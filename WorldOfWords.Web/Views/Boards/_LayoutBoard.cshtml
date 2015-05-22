@@ -39,7 +39,8 @@
                 @RenderSection("words")
             </div>
         </div>
-       
+        <hr />
+        <div id="message"></div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
@@ -49,6 +50,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-@RenderSection("initialize", required: false)
+    @RenderSection("initialize", required: false)
 </body>
 </html>
