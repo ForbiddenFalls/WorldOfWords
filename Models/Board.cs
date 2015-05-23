@@ -7,12 +7,12 @@
     public class Board
     {
         private ICollection<Word> words;
-        private ICollection<BoardsUsers> users;
+        private ICollection<BoardsUsers> boardsUsers;
 
         public Board()
         {
             this.words = new HashSet<Word>();
-            this.users = new HashSet<BoardsUsers>();
+            this.boardsUsers = new HashSet<BoardsUsers>();
         }
 
         public int Id { get; set; }
@@ -33,9 +33,9 @@
             get { return this.words; }
         }
 
-        public virtual ICollection<BoardsUsers> Users
+        public virtual ICollection<BoardsUsers> BoardsUsers
         {
-            get { return this.users; }
+            get { return this.boardsUsers; }
         }
     }
 }

@@ -31,11 +31,11 @@
 @section header {
     <div class="row">
         <div class="col-md-4">Поле: <span id="boarName">@Model.Board.Name</span></div>
-        <div class="col-md-2 col-md-offset-6">Голдъни:</div>
+        <div class="col-md-2 col-md-offset-6">Точки: @Model.EarnedUserPoints</div>
     </div>
     <div class="row">
-        <div class="col-md-4">Активно до:</div>
-        <div class="col-md-2 col-md-offset-6">Точки: </div>
+        <div class="col-md-4">Активно до: @Model.Board.ExpirationDate</div>
+        <div class="col-md-2 col-md-offset-6">Точки от полето: <span id="points">@Model.UserPointsFromBoard</span></div>
     </div>
     <hr />
 }

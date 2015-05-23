@@ -12,7 +12,7 @@
         EFRepository<Word> Words { get; }
         EFRepository<WordsUsers> WordsUsers { get; }
         EFRepository<StoreWord> StoreWords { get; }
-
+        EFRepository<BoardsUsers> BoardsUsers { get; }
 
         void SaveChanges();
     }

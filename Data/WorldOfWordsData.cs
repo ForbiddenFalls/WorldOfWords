@@ -62,6 +62,11 @@ namespace Data
             get { return this.GetGenericRepository<StoreWord>(); }
         }
 
+        public EFRepository<BoardsUsers> BoardsUsers
+        {
+            get { return this.GetGenericRepository<BoardsUsers>(); }
+        }
+
         public void SaveChanges()
         {
             this.context.SaveChanges();

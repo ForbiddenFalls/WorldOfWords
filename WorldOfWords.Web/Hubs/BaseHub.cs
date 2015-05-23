@@ -1,22 +1,17 @@
-﻿namespace WorldOfWords.Web.Controllers
+﻿namespace WorldOfWords.Web.Hubs
 {
-    using System.Data.Entity;
     using System.Linq;
-    using System.Threading;
-    using System.Web.Mvc;
     using Common;
     using Data;
     using Data.Contracts;
-    using Data.Migrations;
+    using Microsoft.AspNet.SignalR;
 
-    public abstract class BaseController : Controller
+    public abstract class BaseHub : Hub
     {
-        protected BaseController()
+        protected BaseHub()
         {
             var context = new WorldOfWordsDbContext();
             this.Data = new WorldOfWordsData(context);
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<WorldOfWordsDbContext, Configuration>());
-            
             this.WordAssessor = new Assessor(Config.Language, this.Data);
         }
 

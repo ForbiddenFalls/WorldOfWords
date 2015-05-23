@@ -204,11 +204,19 @@ app.boardHub =function(board)
         board.loadBoard(content);
     };
 
+    function updatePage (result) {
+        if (result.message) {
+            $("#message").text(result.message);
+        }
+        
+        $("#points").text(result.points);
+    }
+
     function addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
     {
         hub.server.addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
-            .done(function(message) {
-            $("#message").append("<div>"+ message + "</div>");
+            .done(function (result) {
+            updatePage(result);
         });
     }
 

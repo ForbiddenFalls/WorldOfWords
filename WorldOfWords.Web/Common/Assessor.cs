@@ -1,27 +1,26 @@
-﻿using Microsoft.Ajax.Utilities;
-using Models;
-
-namespace WorldOfWords.Web.Common
+﻿namespace WorldOfWords.Web.Common
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Linq;
     using Data;
+    using Data.Contracts;
+    using Models;
 
     public class Assessor
     {
         private List<LettersPoints> lettersPoints;
 
-        public Assessor(int languageId, WorldOfWordsDbContext context)
+        public Assessor(string language, IWorldOfWordsData data)
         {
-            var data = new WorldOfWordsData(context);
+            var languageId = data.Languages
+                .First(l => l.LanguageCode == Config.Language).Id;
 
             this.lettersPoints = data.LettersPoints.Where(l => l.LanguageId == languageId).ToList();
         }
 
-        public Assessor(int languageId)
-            : this(languageId, new WorldOfWordsDbContext())
+        public Assessor(string language)
+            : this(language, new WorldOfWordsData())
         {
           
         }

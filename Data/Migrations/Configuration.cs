@@ -42,7 +42,7 @@
             {
                 Name = "Sofia",
                 Size = sizeBoard,
-                Content = "{\"content\":\"" + new String(' ', sizeBoard * sizeBoard) + "\",\"words\":[]}",
+                Content = "",
                 ExpirationDate = DateTime.Now,
             };
 
@@ -50,7 +50,7 @@
             {
                 Name = "Plovdiv",
                 Size = 5,
-                Content = "{\"content\":\" куче о  х т  о к    а   \",\"words\":[\"котка\",\"куче\",\"ехо\"]}",
+                Content = "",
                 ExpirationDate = DateTime.Now,
             };
 
@@ -128,8 +128,12 @@
                 "дънки",
                 "ластик",
                 "жаба",
-                "кунбенизон",
+                "комбинезон",
                 "абрихт",
+                "комбинирам",
+                "ягода",
+                "щайга",
+                "шайба",
             };
 
             var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
