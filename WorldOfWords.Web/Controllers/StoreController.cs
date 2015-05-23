@@ -92,7 +92,7 @@ namespace WorldOfWords.Web.Controllers
         [HttpPost]
         public ActionResult Cart(List<ShopItem> shopList)
         {
-            return Content("asdd");
+            return Content("asdddS");
         }
 
         public ActionResult BuyWord(int id)
