@@ -4,7 +4,7 @@ div, span {
 }
 
 ul li {
-    list-style: none;     
+    list-style: none;
 }
 
 /*Home Boards containers*/
@@ -16,31 +16,67 @@ body > div.container.body-content > div > div > ul {
 body > div.container.body-content > div.row > div > div > ul > li {
     display: inline-block;
 }
+
 body > div.container.body-content > div > div > ul > li {
     display: inline-block;
 }
+
 body > div.container.body-content > div.row > aside {
     background-color: #5c2040;
     color: white;
     border-radius: 10px;
+    padding: 10px 10px;
 }
+
+/*Words Inventory input Home/Index*/
+body > div.container.body-content > div > aside > fieldset > legend {
+    color: gainsboro;
+    font-size: 15px;
+    margin-bottom: 1px;
+}
+
+body > div.container.body-content > div > aside > fieldset > table > tbody > tr > td {
+    padding: 0 10px;
+}
+
+
+
+body > div.container.body-content > div > aside > fieldset > p {
+    color: gainsboro;
+    font-size: 10px;
+    margin-bottom: 1px;
+}
+
+body > div.container.body-content > div > aside > fieldset > a {
+   
+    color: gainsboro;
+    font-size: 10px;
+    margin-bottom: 1px;
+}
+
+body > div.container.body-content > div > aside > fieldset {
+    height: 200px;
+    overflow-y : scroll;
+    margin-bottom: 20px;
+}
+
 .word {
     display: inline-block;
     border: solid #000 1px;
 }
 
-.word span ,.board span {
-    width: 4rem;
-    height: 4rem;
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 2rem;
-}
+    .word span, .board span {
+        width: 4rem;
+        height: 4rem;
+        display: table-cell;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 2rem;
+    }
 
-.word span {
-    border: solid #fff 1px;
-}
+    .word span {
+        border: solid #fff 1px;
+    }
 
 .vertical span {
     display: block;
@@ -52,6 +88,14 @@ body > div.container.body-content > div.row > aside {
     display: inline-block;
 }
 
+<<<<<<< .mine
+    .board, .board span {
+        border: solid #000 1px;
+    }
+
+    body > div.container.body-content > div > aside > fieldset > table > tbody > tr {
+        border: none;
+}=======
 .board, .board span {
     border: solid #000 1px;
 }
@@ -79,4 +123,4 @@ body > div.container.body-content > div.row > aside {
 
 .font-size-15 {
     font-size: 1.5rem;
-}
+}>>>>>>> .r69

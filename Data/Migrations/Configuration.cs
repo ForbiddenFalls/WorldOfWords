@@ -1,6 +1,7 @@
 ﻿namespace Data.Migrations
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
     using EntityFramework.Extensions;
@@ -24,8 +25,8 @@
             if (context.Languages.Any()) return;
 
             AddLanguagesToDb(context);
-            AddWordsToDbAndStore(context);
             AddRolesToDb(context);
+            AddWordsToDbAndStore(context);
 
             var sizeBoard = 10;
 
@@ -34,7 +35,7 @@
                 Name = "Varna",
                 Size = sizeBoard,
                 Content = new String(' ', sizeBoard * sizeBoard),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.Now.AddDays(20).AddHours(12),
             };
 
             sizeBoard = 5;
@@ -43,7 +44,7 @@
                 Name = "Sofia",
                 Size = sizeBoard,
                 Content = "",
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.Now.AddDays(20).AddHours(12),
             };
 
             var boardPlovdiv = new Board()
@@ -51,7 +52,7 @@
                 Name = "Plovdiv",
                 Size = 5,
                 Content = "",
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.Now.AddDays(20).AddHours(12),
             };
 
             context.Boards.Add(boardSofia);
@@ -89,6 +90,7 @@
 
             var admin = new User { UserName = "admin@admin.a", Email = "admin@admin.a" };
             var moderator = new User { UserName = "moderator@mod.m", Email = "moderator@mod.m" };
+
             var resultUser = managerUser.Create(admin, "Aa#123456");
             var resultmod = managerUser.Create(moderator, "Aa#123456");
             context.SaveChanges();
@@ -137,21 +139,26 @@
             };
 
             var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
-
+            var admin = context.Users.FirstOrDefault(x => x.UserName == "admin@admin.a");
             foreach (var word in words)
             {
-                var wordEntity = new Word()
+                var wordEntity = new Word
                 {
                     Content = word,
                     DateAdded = DateTime.Now,
                     Language = language
                 };
                 context.Words.Add(wordEntity);
-                context.StoreWords.Add(new StoreWord()
+                context.StoreWords.Add(new StoreWord
                 {
                     DateAdded = DateTime.Now,
                     Word = wordEntity,
                     Quantity = 2
+                });
+                admin.WordsUsers.Add(new WordsUsers
+                {
+                    Word = wordEntity,
+                    WordCount = 2,
                 });
             }
 

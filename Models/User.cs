@@ -35,6 +35,7 @@
         public virtual ICollection<WordsUsers> WordsUsers
         {
             get { return this.wordsUsers; }
+            set { this.wordsUsers = value; }
         }
 
         public virtual ICollection<BoardsUsers> BoardsUsers

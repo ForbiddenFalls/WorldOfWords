@@ -50,12 +50,24 @@ namespace WorldOfWords.Web.Controllers
 
                 if (userStats.BoardsUsers != null)
                 {
-                    homeInfo.BoardsUsers = userStats.BoardsUsers;
+                    homeInfo.BoardsUsers = userStats.BoardsUsers.Select(x => new BoardsUsers
+                    {
+                        UserPoints = x.UserPoints,
+                        Board = x.Board
+                    })
+                    .ToList();
                 }
 
                 if (userStats.WordsUsers != null)
                 {
-                    homeInfo.WordsUsers = userStats.WordsUsers;
+                    homeInfo.WordsUsers = userStats.WordsUsers.Select(x => new WordsUsers()
+                    {
+                        Word = x.Word,
+                        WordCount = x.WordCount
+                    })
+                    .OrderBy(x => x.Word.Content)
+                    .GroupBy(x => x.Word.Content[0])
+                    .ToList();
                 }
             }
 
