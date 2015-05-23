@@ -38,3 +38,8 @@ div, span {
 .board span {
 
 }
+
+/*Store*/
+#words-section .shoplist {
+    width: 40px;
+}
