@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - World OF Words</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     <script src="/Scripts/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <script src="/Scripts/storeFunctions.js" type="text/javascript"></script>
     @Scripts.Render("~/bundles/bootstrap")
     <link href="~/Content/css.css" rel="stylesheet">
@@ -38,7 +39,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - World Of Words™</p>
         </footer>
     </div>
     @RenderSection("scripts", required: false)
