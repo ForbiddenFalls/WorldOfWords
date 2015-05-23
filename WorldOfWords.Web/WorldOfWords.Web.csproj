@@ -195,6 +195,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\BaseHub.cs" />
     <Compile Include="Hubs\BoardsHub.cs" />
     <Compile Include="ViewsModels\AccountViewModels.cs" />
     <Compile Include="ViewsModels\ManageViewModels.cs" />
