@@ -60,6 +60,7 @@
     <Compile Include="StoreWord.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BoardsUsers.cs" />
     <Compile Include="WordsUsers.cs" />
     <Compile Include="Word.cs" />
   </ItemGroup>

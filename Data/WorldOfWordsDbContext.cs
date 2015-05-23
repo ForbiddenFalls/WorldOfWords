@@ -19,6 +19,8 @@
 
         public DbSet<WordsUsers> WordsUsers { get; set; }
 
+        public DbSet<BoardsUsers> UsersBoards { get; set; }
+
         public DbSet<LettersPoints> LettersPoints { get; set; }
 
         public DbSet<Language> Languages { get; set; }
@@ -27,11 +29,5 @@
         {
             return new WorldOfWordsDbContext();
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<User>().HasMany(x => x.Words).WithMany(x => x.Users)
-        //        .Map(m => m.ToTable("WordsUsers"));
-        //}
     }
 }

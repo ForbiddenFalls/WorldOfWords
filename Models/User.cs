@@ -11,22 +11,23 @@
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class User : IdentityUser
     {
-        private const long StartPoints = 1000;
+        private const int StartPoints = 1000;
 
         private ICollection<WordsUsers> wordsUsers;
-        private ICollection<Board> boards;
+        private ICollection<BoardsUsers> boardsUsers;
 
         public User()
         {
             this.RegisteredOn = DateTime.Now;
             this.wordsUsers = new HashSet<WordsUsers>();
-            this.boards = new HashSet<Board>();
+            this.boardsUsers = new HashSet<BoardsUsers>();
+            this.Balance = StartPoints;
         }
 
         [DefaultValue(0)]
         public long EarnedPoints { get; set; }
 
-        [DefaultValue(1000)]
+        [DefaultValue(StartPoints)]
         public int Balance { get; set; }
 
         public DateTime RegisteredOn { get; set; }
@@ -36,9 +37,9 @@
             get { return this.wordsUsers; }
         }
 
-        public virtual ICollection<Board> Boards
+        public virtual ICollection<BoardsUsers> BoardsUsers
         {
-            get { return this.boards; }
+            get { return this.boardsUsers; }
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)

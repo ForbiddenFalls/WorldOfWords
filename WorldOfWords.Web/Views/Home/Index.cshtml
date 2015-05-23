@@ -10,10 +10,11 @@
     @if (User.Identity.IsAuthenticated)
     {
         var userStats = ViewBag.userStats;
+        var boards = ViewBag.boards;
         <h2>Welcome, @userStats.UserName</h2>
         <div class="col-md-4">
             <strong>Играни Дъски</strong>
-            @foreach (var board in userStats.Boards)
+            @foreach (var board in boards)
             {
                 <hr />
                 <fieldset>

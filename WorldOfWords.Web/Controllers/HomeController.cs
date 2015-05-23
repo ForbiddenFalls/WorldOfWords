@@ -19,7 +19,7 @@ namespace WorldOfWords.Web.Controllers
                 var userStats = this.Data.Users.All()
                     .FirstOrDefault(u => u.Id == userId);
                 ViewBag.userStats = userStats;
-                
+                ViewBag.boards = userStats.BoardsUsers.Select(bu => bu.Board);
                 return View();
             }
             else
