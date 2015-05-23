@@ -10,7 +10,7 @@
 
     public class BoardsController : BaseController
     {
-        // GET: Boards
+        // GET: Board by name
         [HttpGet]
         [Authorize]
         public ActionResult Show(string name)

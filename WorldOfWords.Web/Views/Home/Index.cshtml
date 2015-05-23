@@ -22,26 +22,23 @@
             <div class="col-md-9">
                 @if (Model.BoardsUsers != null && Model.BoardsUsers.Count > 0)
                 {
-                    <h5>Активни дъски</h5>
-                    <table>
+                    <h5><strong>Активни дъски</strong></h5>
+                    <div>
                         @foreach (var board in Model.BoardsUsers)
                         {
-                            <tr>
-                                <td colspan="3">
-                                    <a href="">@board.Board.Name</a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
+                            <ul>
+                                <li>
+                                    <a href="@("../board/"+board.Board.Name)"><strong>@(board.Board.Name)</strong></a>
+                                </li>
+                                <li>
                                     Размер: @board.Board.Size x @board.Board.Size
-                                </td>
-                                <td>
+                                </li>
+                                <li>
                                     <strong>Отворена до </strong> @board.Board.ExpirationDate.ToString("dd HH yy HH:MM")
-                                </td>
-                            </tr>
+                                </li>
+                            </ul>
                         }
-                    </table>
+                    </div>
                 }
                 else
                 {
@@ -62,13 +59,13 @@
 <div class="row">
     @if (Model != null && Model.AllBoards.Count > 0)
     {
-        <h3>Игрални Дъски</h3>
+        <h3>Публични Дъски</h3>
         <div>
             @foreach (var board in Model.AllBoards)
             {
                 <ul>
                     <li>
-                        <a href=""><strong>@board.Name</strong></a>
+                        <a href="@("../board/"+board.Name)"><strong>@board.Name</strong></a>
                     </li>
 
                     <li>
