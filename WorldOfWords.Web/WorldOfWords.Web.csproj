@@ -198,6 +198,7 @@
     <Compile Include="Hubs\BaseHub.cs" />
     <Compile Include="Hubs\BoardsHub.cs" />
     <Compile Include="ViewsModels\AccountViewModels.cs" />
+    <Compile Include="ViewsModels\HomeViewModel.cs" />
     <Compile Include="ViewsModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
