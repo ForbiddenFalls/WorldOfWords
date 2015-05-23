@@ -29,7 +29,6 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult Store(string sortOrder, string searchString, string currentFilter, int? page)
         {
-            var languageCode = "bg";
             ViewBag.Assessor = this.WordAssessor;
 
             var currentUser = User.Identity.GetUserId();
