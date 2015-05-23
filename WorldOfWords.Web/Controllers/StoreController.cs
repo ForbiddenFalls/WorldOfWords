@@ -1,5 +1,9 @@
-﻿using System.Web.UI;
+﻿using System.Collections.Generic;
+using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.UI;
 using Models;
+using WorldOfWords.Web.BindingModels;
 
 namespace WorldOfWords.Web.Controllers
 {
@@ -19,6 +23,11 @@ namespace WorldOfWords.Web.Controllers
         private const int PageSize = 3;
 
         public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
+        {
+           return View();
+        }
+
+        public ActionResult Store(string sortOrder, string searchString, string currentFilter, int? page)
         {
             var languageCode = "bg";
             ViewBag.Assessor = new Assessor(this.Data.Languages.FirstOrDefault(l => l.LanguageCode == languageCode).Id);
@@ -77,7 +86,13 @@ namespace WorldOfWords.Web.Controllers
             #endregion
 
             int pageNumber = (page ?? 1);
-            return View(words.ToPagedList(pageNumber, PageSize));
+            return PartialView(words.ToPagedList(pageNumber, PageSize));
+        }
+
+        [HttpPost]
+        public ActionResult Cart(List<ShopItem> shopList)
+        {
+            return Content("asdddS");
         }
 
         public ActionResult BuyWord(int id)

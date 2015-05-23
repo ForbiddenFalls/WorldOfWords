@@ -1,81 +1,19 @@
-﻿@model PagedList.IPagedList<WorldOfWords.Web.ViewsModels.WordWithCount>
-@using PagedList.Mvc;
-@using WorldOfWords.Web.Common
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+﻿<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div id="store">
-    @using (Html.BeginForm("Index", "Store", FormMethod.Get))
-    {
-        <p>
-            Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search"/>
-        </p>
-    }
-    <div id="test"></div>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.ActionLink("Word", "Index", new {sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter})
-            </th>
-            <th>
-                @Html.ActionLink("Date Added", "Index", new {sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter})
-            </th>
-            <th>Quantity</th>
-            <th>You Have</th>
-            <th>Price</th>
-            <th>Buy</th>
-        </tr>
 
-        @foreach (var word in Model)
-        {
-            <tr>
-                <td>
-                    @word.Content
-                </td>
-                <td>
-                    @word.DateAdded
-                </td>
-                <td>
-                    <div id="word-@word.Id-quantity">@word.Quantity</div>
-                </td>
-                <td>
-                    <div id="word-@word.Id-user-quantity">@(word.QuantityUser ?? 0)</div>
-                </td>
-                <td>
-                    @(ViewBag.Assessor.GetPointsByWord(word.Content))
-                </td>
-                <td>
-                    @Ajax.ActionLink("Buy",
-                        "BuyWord",
-                        new {id = @word.Id},
-                        new AjaxOptions()
-                        {
-                            OnSuccess = "successfulBuy",
-                            OnFailure = "failedBuy",
-                        },
-                        new {@class = "btn btn-primary"})
-                </td>
-            </tr>
-        }
+@Ajax.ActionLink("Store", "Store", null, new AjaxOptions()
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "words-section"
+                }, new {@class = "btn btn-primary btn-lg", @id="store-button"})
+<div id="words-section">
 
-    </table>
-    <br/>
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-        new {page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter}))
 </div>
+<div id="shop-cart">
 
+</div>
 <script>
-    function successfulBuy(data) {
-        $("#word-" + data.wordId + "-quantity").text(data.newQuantity);
-        $("#word-" + data.wordId + "-user-quantity").text(data.newUserQuantity);
-        alert("You successfuly bought this word");
-    }
-
-    function failedBuy(error) {
-        alert(error.statusText);
-    }
+    $("#store-button").click();
 </script>

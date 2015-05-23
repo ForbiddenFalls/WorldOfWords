@@ -1,0 +1,81 @@
+﻿@model PagedList.IPagedList<WorldOfWords.Web.ViewsModels.WordWithCount>
+@using PagedList.Mvc;
+
+@using (Html.BeginForm("Index", "Store", FormMethod.Get))
+{
+    <p>
+        Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Ajax.ActionLink("Word", "Store", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, new AjaxOptions()
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "words-section"
+                })
+        </th>
+        <th>
+            @Html.ActionLink("Date Added", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>Quantity</th>
+        <th>You Have</th>
+        <th>Price</th>
+        <th>Buy</th>
+    </tr>
+
+    @foreach (var word in Model)
+    {
+        <tr>
+            <td>
+                @word.Content
+            </td>
+            <td>
+                @word.DateAdded
+            </td>
+            <td>
+                <div id="word-@word.Id-quantity">@word.Quantity</div>
+            </td>
+            <td>
+                <div id="word-@word.Id-user-quantity">@(word.QuantityUser ?? 0)</div>
+            </td>
+            <td>
+                @(ViewBag.Assessor.GetPointsByWord(word.Content))
+            </td>
+            <td>
+                <label>
+                    <input type="number" name="shoplist" id="shoplist-@word.Id" class="shoplist" />Buy
+                </label>
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<script>
+    var shopList = [];
+
+    $(".shoplist").on('change', function () {
+        var $this = $(this);
+        var id = $this.attr('id').substr($this.attr("id").lastIndexOf("-")+1);
+
+        var shopItem = {
+            WordId: parseInt(id),
+            Quantity: parseInt($this.val())
+    }
+
+        addShopItemToList(shopItem, shopList);
+
+        loadShopCartView(shopList).success(function(data) {
+            $("shop-cart").html(data);
+        });
+
+    });
+</script>
