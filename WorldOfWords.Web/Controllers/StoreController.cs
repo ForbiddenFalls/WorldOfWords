@@ -1,5 +1,6 @@
 ﻿using System.Web.UI;
 using Models;
+using WebGrease.Css.Extensions;
 using WorldOfWords.Web.BindingModels;
 
 namespace WorldOfWords.Web.Controllers
@@ -90,7 +91,21 @@ namespace WorldOfWords.Web.Controllers
         [HttpPost]
         public ActionResult Cart(List<ShopItem> shopList)
         {
-            return Content("asdddS");
+            var languageId = this.Data.Languages.FirstOrDefault(l => l.LanguageCode == "bg").Id;
+            var cartItems = shopList.Select(sl => new CartItem()
+            {
+                Word = this.Data.StoreWords.FirstOrDefault(w => w.Id == sl.WordId).Word.Content,
+                Quantity = sl.Quantity
+            });
+
+            var assesor = new Assessor(languageId);
+            for (int i = 0; i < cartItems.Count(); i++)
+            {
+                var singlePrice = assesor.GetPointsByWord(cartItems.ElementAt(i).Word);
+                cartItems.ElementAt(i).Price = 5; //singlePrice * cartItems.ElementAt(i).Quantity;
+            }
+
+            return PartialView(cartItems);
         }
 
         public ActionResult BuyWord(int id)

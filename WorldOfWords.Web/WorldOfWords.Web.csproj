@@ -195,12 +195,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\BaseHub.cs" />
     <Compile Include="Hubs\BoardsHub.cs" />
     <Compile Include="ViewsModels\AccountViewModels.cs" />
     <Compile Include="ViewsModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewsModels\CartItem.cs" />
     <Compile Include="ViewsModels\ShowBoardModel.cs" />
     <Compile Include="ViewsModels\WordWithCount.cs" />
   </ItemGroup>
@@ -277,6 +277,7 @@
     <Content Include="Views\Shared\_UserMenu.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
     <Content Include="Views\Store\Store.cshtml" />
+    <Content Include="Views\Store\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
