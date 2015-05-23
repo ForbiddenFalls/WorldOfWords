@@ -14,7 +14,7 @@
         public Assessor(string language, IWorldOfWordsData data)
         {
             var languageId = data.Languages
-                .First(l => l.LanguageCode == Config.Language).Id;
+                .First(l => l.LanguageCode == language).Id;
 
             this.lettersPoints = data.LettersPoints.Where(l => l.LanguageId == languageId).ToList();
         }
