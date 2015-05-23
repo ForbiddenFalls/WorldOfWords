@@ -91,18 +91,18 @@ namespace WorldOfWords.Web.Controllers
         [HttpPost]
         public ActionResult Cart(List<ShopItem> shopList)
         {
-            var cartItems = shopList.Select(sl => new CartItem()
+            if (shopList != null)
             {
-                Word = this.Data.StoreWords.FirstOrDefault(w => w.Id == sl.WordId).Word.Content,
-                Quantity = sl.Quantity
-            });
+                var cartItems = shopList.Select(sl => new CartItem()
+                {
+                    Word = this.Data.StoreWords.FirstOrDefault(w => w.Id == sl.WordId).Word.Content,
+                    Quantity = sl.Quantity
+                });
 
-            foreach (var item in cartItems)
-            {
-                item.Word = "asd";
+                this.ViewBag.Assessor = this.WordAssessor;
+                return PartialView(cartItems);
             }
-
-            return PartialView(cartItems);
+            return null;
         }
 
         public ActionResult BuyWord(int id)

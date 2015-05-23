@@ -25,10 +25,24 @@ function addShopItemToList(shopItem, shopList) {
     shopList.push(shopItem);
 }
 
+function deleteShopItemFromList(shopItem, shopList) {
+    console.log("in func");
+    for (var i = 0; i < shopList.length; i++) {
+        var item = shopList[i];
+
+        if (item.WordId === shopItem.WordId) {
+            console.log("found word");
+            shopList.splice(i, 1);
+            console.log(shopList);
+        }
+    }
+}
+
 function loadShopCartView(shopList) {
     shopList = JSON.stringify(shopList);
 
     return $.ajax({
+        cache: false,
         url: "Store/Cart",
         type: "POST",
         contentType: "application/json",

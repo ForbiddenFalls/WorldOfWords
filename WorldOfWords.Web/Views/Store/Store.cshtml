@@ -59,23 +59,26 @@
     @Html.PagedListPager(Model, page => Url.Action("Index",
         new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-<script>
-    var shopList = [];
+    <script>
+        var shopList = [];
 
-    $(".shoplist").on('change', function () {
-        var $this = $(this);
-        var id = $this.attr('id').substr($this.attr("id").lastIndexOf("-")+1);
+        $(".shoplist").on('change', function () {
+            var $this = $(this);
+            var id = $this.attr('id').substr($this.attr("id").lastIndexOf("-") + 1);
 
-        var shopItem = {
-            WordId: parseInt(id),
-            Quantity: parseInt($this.val())
-    }
+            var shopItem = {
+                WordId: parseInt(id),
+                Quantity: parseInt($this.val())
+            }
+            if (shopItem.Quantity === 0) {
+                deleteShopItemFromList(shopItem, shopList);
+            } else {
+                addShopItemToList(shopItem, shopList);
+            }
 
-        addShopItemToList(shopItem, shopList);
+            loadShopCartView(shopList).success(function (data) {
+                $("#shop-cart").html(data);
+            });
 
-        loadShopCartView(shopList).success(function(data) {
-            $("shop-cart").html(data);
         });
-
-    });
-</script>
+    </script>

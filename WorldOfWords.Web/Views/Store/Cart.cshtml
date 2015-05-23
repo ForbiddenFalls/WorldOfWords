@@ -1,6 +1,25 @@
 ﻿@model IEnumerable<WorldOfWords.Web.ViewsModels.CartItem>
 
-@foreach (var word in Model)
-{
-    
-}
+<table class="table">
+    <tr>
+        <th>Word</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+
+    @foreach (var word in Model)
+    {
+        <tr>
+            <td>
+                @word.Word
+            </td>
+            <td>
+                @word.Quantity
+            </td>
+            <td>
+                @(ViewBag.Assessor.GetPointsByWord(word.Word)) * @word.Quantity = @(ViewBag.Assessor.GetPointsByWord(word.Word) * word.Quantity)
+            </td>
+        </tr>
+    }
+
+</table>
