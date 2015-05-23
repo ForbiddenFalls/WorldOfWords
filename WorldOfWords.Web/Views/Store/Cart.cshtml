@@ -5,11 +5,12 @@
         <th>Word</th>
         <th>Quantity</th>
         <th>Price</th>
+        <th>Delete</th>
     </tr>
-
+    <tbody id="cart-words">
     @foreach (var word in Model)
     {
-        <tr>
+        <tr id="cart-word-@word.WordId">
             <td>
                 @word.Word
             </td>
@@ -17,9 +18,27 @@
                 @word.Quantity
             </td>
             <td>
-                @(ViewBag.Assessor.GetPointsByWord(word.Word)) * @word.Quantity = @(ViewBag.Assessor.GetPointsByWord(word.Word) * word.Quantity)
+                @word.Price * @word.Quantity = @(word.Price * word.Quantity)
             </td>
+            <td><input type="button" name="delete" value="Delete" class="btn btn-danger" onclick=" deleteFromCart(@word.WordId) "/></td>
         </tr>
     }
-
+    </tbody>
+    <tr>
+        <td colspan="4" style="text-align: right">
+            <h3>Total: @ViewBag.TotalPrice</h3>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4" style="text-align: center"><input type="button" name="buy" value="Buy" class="btn btn-lg btn-success" onclick="buyWords(shopList)"/></td>
+    </tr>
 </table>
+
+<script>
+    function deleteFromCart(wordId) {
+        deleteShopItemFromList(wordId, shopList);
+        loadShopCartView(shopList).success(function(data) {
+            $("#shop-cart").html(data);
+        });
+    }
+</script>

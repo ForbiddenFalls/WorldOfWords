@@ -1,7 +1,11 @@
 ﻿@model PagedList.IPagedList<WorldOfWords.Web.ViewsModels.WordWithCount>
 @using PagedList.Mvc;
 
-@using (Html.BeginForm("Index", "Store", FormMethod.Get))
+@using (Ajax.BeginForm("Store", "Store", new AjaxOptions()
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "words-section"
+        }))
 {
     <p>
         Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
@@ -18,7 +22,11 @@
                 })
         </th>
         <th>
-            @Html.ActionLink("Date Added", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Ajax.ActionLink("Date Added", "Store", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, new AjaxOptions()
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "words-section"
+                })
         </th>
         <th>Quantity</th>
         <th>You Have</th>
@@ -46,7 +54,7 @@
             </td>
             <td>
                 <label>
-                    <input type="number" name="shoplist" id="shoplist-@word.Id" class="shoplist" />Buy
+                    <input type="number" name="shoplist" id="shoplist-@word.Id" class="shoplist" min="0" />Buy
                 </label>
             </td>
         </tr>
@@ -56,22 +64,28 @@
 <br />
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    @Html.PagedListPager(Model, page => Url.Action("Store",
+        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.PageNumbersOnly, new AjaxOptions()
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "words-section"
+        }))
 
     <script>
-        var shopList = [];
-
         $(".shoplist").on('change', function () {
             var $this = $(this);
             var id = $this.attr('id').substr($this.attr("id").lastIndexOf("-") + 1);
+
+            if ($this.val() < 0) {
+                return;
+            }
 
             var shopItem = {
                 WordId: parseInt(id),
                 Quantity: parseInt($this.val())
             }
             if (shopItem.Quantity === 0) {
-                deleteShopItemFromList(shopItem, shopList);
+                deleteShopItemFromList(shopItem.WordId, shopList);
             } else {
                 addShopItemToList(shopItem, shopList);
             }

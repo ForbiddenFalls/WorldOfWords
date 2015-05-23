@@ -1,14 +1,4 @@
-﻿function successfulBuy(data) {
-    $("#word-" + data.wordId + "-quantity").text(data.newQuantity);
-    $("#word-" + data.wordId + "-user-quantity").text(data.newUserQuantity);
-    alert("You successfuly bought this word");
-}
-
-function failedBuy(error) {
-    alert(error.statusText);
-}
-
-function addShopItemToList(shopItem, shopList) {
+﻿function addShopItemToList(shopItem, shopList) {
     var indexOfItemInArray = -1;
     for (var i = 0; i < shopList.length; i++) {
         var item = shopList[i];
@@ -25,15 +15,12 @@ function addShopItemToList(shopItem, shopList) {
     shopList.push(shopItem);
 }
 
-function deleteShopItemFromList(shopItem, shopList) {
-    console.log("in func");
+function deleteShopItemFromList(wordId, shopList) {
     for (var i = 0; i < shopList.length; i++) {
         var item = shopList[i];
 
-        if (item.WordId === shopItem.WordId) {
-            console.log("found word");
+        if (item.WordId === wordId) {
             shopList.splice(i, 1);
-            console.log(shopList);
         }
     }
 }
@@ -47,5 +34,25 @@ function loadShopCartView(shopList) {
         type: "POST",
         contentType: "application/json",
         data: shopList
-    });
+    }).error(ajaxError);
+}
+
+function buyWords(shopList) {
+    shopList = JSON.stringify(shopList);
+
+    $.ajax({
+        cache: false,
+        url: "Store/Buy",
+        type: "POST",
+        contentType: "application/json",
+        data: shopList
+    }).success(function (data) {
+        alert("Success. Balance left: " + data.Balance);
+        location.reload();
+    }).error(ajaxError);
+}
+
+function ajaxError(error) {
+    alert("Error: " + error.statusText);
+    location.reload();
 }
