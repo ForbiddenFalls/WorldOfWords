@@ -1,78 +1,89 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model WorldOfWords.Web.ViewsModels.HomeViewModel
+
+@{
+    ViewBag.Title = "Home";
 }
 
-<div class="jumbotron">
-    <h1>Your Word World</h1>
-</div>
-
 <div class="row">
-    @if (User.Identity.IsAuthenticated)
+    @if (Model != null)
     {
-        var userStats = ViewBag.userStats;
-        var boards = ViewBag.boards;
-        <h2>Welcome, @userStats.UserName</h2>
-        <div class="col-md-4">
-            <strong>Играни Дъски</strong>
-            @foreach (var board in boards)
-            {
-                <hr />
-                <fieldset>
-                    <legend>
-                        <a href="">@board.Name</a>
-                    </legend>
-                    <ul>
-                        <li>
-                            Размер: @board.Size
-                        </li>
-                        <li>
-                            <strong>Отворена до </strong>
-                            @board.ExpirationDate.ToString("dd HH yy HH:MM")
-                        </li>
-                    </ul>
-                </fieldset>
-            }
-        </div>
-        <div class="col-md-4">
-            <h3>Твоят профил:</h3>
-            <ul>
-                <li>@(userStats.Balance) голдъни</li>
-                <li>@(userStats.EarnedPoints) точки</li>
-            </ul>
-            <div class="col-md-4">
+        if (User.Identity.IsAuthenticated)
+        {
+            <div>
+                <h1>@(User.Identity.Name)'s Word World</h1>
             </div>
+            <aside class="col-md-3">
+                <strong>Твоят профил:</strong>
+                <ul>
+                    <li>@(Model.Balance) голдъни</li>
+                    <li>@(Model.EarnedPoints) точки</li>
+                </ul>
+            </aside>
+            <div class="col-md-9">
+                @if (Model.BoardsUsers != null && Model.BoardsUsers.Count > 0)
+                {
+                    <h5>Активни дъски</h5>
+                    <table>
+                        @foreach (var board in Model.BoardsUsers)
+                        {
+                            <tr>
+                                <td colspan="3">
+                                    <a href="">@board.Board.Name</a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Размер: @board.Board.Size x @board.Board.Size
+                                </td>
+                                <td>
+                                    <strong>Отворена до </strong> @board.Board.ExpirationDate.ToString("dd HH yy HH:MM")
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <strong>Нямате активни дъски</strong>
+                }
+            </div>
+        }
+        else
+        {
+            <h2>Welcome, Stranger!</h2>
+            <div>
+                <h3>Все още нямаш профил</h3>
+                Регистрирай се и ще имаш възможност да се съревноваваш веднага <strong>безплатно</strong>.
+            </div>
+        }
+    }
+</div>
+<div class="row">
+    @if (Model!=null &&Model.AllBoards.Count > 0)
+    {
+        <h3>Игрални Дъски</h3>
+        <div>
+            @foreach (var board in Model.AllBoards)
+            {
+                <ul>
+                    <li>
+                        <a href=""><strong>@board.Name</strong></a>
+                    </li>
+
+                    <li>
+                        Размер: @board.Size x @board.Size
+                    </li>
+                    <li>
+                        <strong>Отворена до </strong>
+                        @board.ExpirationDate.ToString("HH:MM dd/MM/yy")г.
+                    </li>
+                </ul>
+            }
         </div>
     }
-    @if (!User.Identity.IsAuthenticated)
+    else
     {
-        var boards = ViewBag.boards;
-        <h2>Welcome, Stranger!</h2>
-        <div class="col-md-4">
-            <strong>Игрални Дъски</strong>
-            @foreach (var board in boards)
-            {
-                <hr />
-                <fieldset>
-                    <legend>
-                        <a href="">@board.Name</a>
-                    </legend>
-                    <ul>
-                        <li>
-                            Размер: @board.Size
-                        </li>
-                        <li>
-                            <strong>Отворена до </strong>
-                            @board.ExpirationDate.ToString("dd HH yy HH:MM")
-                        </li>
-                    </ul>
-                </fieldset>
-            }
-        </div>
-        <div class="col-md-4">
-            <h3>Wse още нямаш профил</h3>
-            Регистрирай се и ще имаш възможност да се съревноваваш веднага <strong>безплатно.</strong>
-            <div class="col-md-4">
-            </div>
-        </div>
+        <strong>Все още няма игрални дъски.</strong>
     }
 </div>

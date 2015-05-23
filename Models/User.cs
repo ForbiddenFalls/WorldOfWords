@@ -19,15 +19,14 @@
         public User()
         {
             this.RegisteredOn = DateTime.Now;
+            this.EarnedPoints = 0;
             this.wordsUsers = new HashSet<WordsUsers>();
             this.boardsUsers = new HashSet<BoardsUsers>();
             this.Balance = StartPoints;
         }
 
-        [DefaultValue(0)]
         public long EarnedPoints { get; set; }
 
-        [DefaultValue(StartPoints)]
         public int Balance { get; set; }
 
         public DateTime RegisteredOn { get; set; }
