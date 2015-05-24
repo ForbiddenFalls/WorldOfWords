@@ -1,5 +1,7 @@
 var app = app || {};
 
+
+// Modul for manage a word
 app.word = function () {
     var catchedLetterId,
         $htmlWord;
@@ -62,7 +64,7 @@ app.word = function () {
 }();
 
 
-
+// Modul for manage a board
 app.board = function (word) {
     var boardName = $('#boarName').text(),
         words = [],
@@ -171,7 +173,7 @@ app.board = function (word) {
         words = board.words;
         var $cells = $('.board span'),
             i;
-        for(i in content) {
+        for (i in content) {
             $cells[i].innerHTML = content[i].replace(' ', '&nbsp;');
         }
     }
@@ -191,33 +193,31 @@ app.board = function (word) {
     };
 }(app.word);
 
-
-app.boardHub =function(board)
-{
+// SignalR Modul for adding word to board
+app.boardHub = function (board) {
     var hub = $.connection.boardsHub;
 
     $.connection.hub.start().done(function () {
         hub.server.joinBoard(app.board.name);
     });
 
-    hub.client.loadBoard = function(content) {
+    hub.client.loadBoard = function (content) {
         board.loadBoard(content);
     };
 
-    function updatePage (result) {
+    function updatePage(result) {
         if (result.message) {
             $("#message").text(result.message);
         }
-        
+
         $("#points").text(result.points);
     }
 
-    function addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
-    {
+    function addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId) {
         hub.server.addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
             .done(function (result) {
-            updatePage(result);
-        });
+                updatePage(result);
+            });
     }
 
     return {
@@ -225,8 +225,76 @@ app.boardHub =function(board)
     };
 }(app.board);
 
+//Module shearch 
+app.search = function () {
+    var $words = $(".word");
 
+    function getWordText($word) {
+        var word = $word.text().replace(/[ \n\r]+/g, '');
+        return word;
+    }
+    
+    function toggleVisibility($word, condition) {
+        if (condition) {
+            $word.parent().show();
+        } else {
+            $word.parent().hide();
+        }
+    }
 
-app.board.setSize(5);
+    function showAll() {
+        $words.each(function() {
+            $(this).parent().show();
+        });
+    }
+
+    function byLength(length) {
+        $words.each(function () {
+            var $word = $(this);
+            var word = getWordText($word);
+            toggleVisibility($word, word.length == length);
+        });
+    }
+
+    function toBegin(letters) {
+        $words.each(function () {
+            var $word = $(this); 
+            var word = getWordText($word);
+            toggleVisibility($word, word.indexOf(letters) == 0);
+        });
+    }
+
+    function toContain(letters) {
+        $words.each(function () {
+            var $word = $(this);
+            var word = getWordText($word);
+            toggleVisibility($word, word.indexOf(letters) >= 0);
+        });
+    }
+
+    var $loadEvents = function () {
+        var $searchInput = $('#letters');
+        $searchInput.on('keyup', function (ev) {
+            if ($(ev.target).val() == "") {
+                showAll();
+                return;
+            }
+
+            var radioVal = $('#radio-buttons input:checked').val();
+            switch (radioVal) {
+                case "1":
+                    byLength($(ev.target).val());
+                    break;
+                case "2":
+                    toBegin($(ev.target).val());
+                    break;
+                case "3":
+                    toContain($(ev.target).val());
+                    break;
+            default:
+            }
+        });
+    }();
+}();
 
 

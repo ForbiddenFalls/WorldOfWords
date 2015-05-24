@@ -31,8 +31,19 @@
             <div class="col-md-6">
                 @RenderBody()
             </div>
-            <div class="col-md-6 words-container">
-                @RenderSection("words")
+            <div class="col-md-6">
+                <div class="row" id="radio-buttons">
+                    <div class="col-md-4"><input id="by-length" name="shearch" type="radio" value="1" checked/> <label for="by-length">Брой букви</label></div>
+                    <div class="col-md-4"><input id="to-begin" name="shearch" type="radio" value="2" /> <label for="to-begin">Да започва с</label></div>
+                    <div class="col-md-4"><input id="to-contain" name="shearch" type="radio" value="3" /> <label for="to-contain">Да съдържа</label></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><input id="letters" type="text" /></div>
+                </div>
+                <hr />
+                <div class="row words-container">
+                    @RenderSection("words")
+                </div>
             </div>
         </div>
         <hr />
