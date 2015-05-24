@@ -2,12 +2,6 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-@Ajax.ActionLink("Store", "Store", null, new AjaxOptions()
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "words-section"
-                }, new {@class = "btn btn-primary btn-lg", @id="store-button"})
 <div id="words-section">
 
 </div>
@@ -15,6 +9,8 @@
 
 </div>
 <script>
-    $("#store-button").click();
+    loadShop().success(function(data) {
+        $("#words-section").html(data);
+    });
     var shopList = [];
 </script>

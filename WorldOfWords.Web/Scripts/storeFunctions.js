@@ -1,4 +1,8 @@
-﻿function addShopItemToList(shopItem, shopList) {
+﻿function loadShop() {
+    return $.get("/Store/Store");
+}
+
+function addShopItemToList(shopItem, shopList) {
     var indexOfItemInArray = -1;
     for (var i = 0; i < shopList.length; i++) {
         var item = shopList[i];
