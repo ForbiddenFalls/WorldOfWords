@@ -21,11 +21,7 @@
                 @Html.ActionLink("World Of Words", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    @Html.Partial("_UserMenu")
-                </ul>
-                @Html.Partial("_LoginPartial")
+                @Html.Partial("_Menu")
             </div>
         </div>
     </div>
@@ -35,7 +31,7 @@
             <div class="col-md-6">
                 @RenderBody()
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 words-container">
                 @RenderSection("words")
             </div>
         </div>

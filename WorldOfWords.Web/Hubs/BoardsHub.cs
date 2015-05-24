@@ -195,7 +195,7 @@
                 .Select(l => this.WordAssessor.GetPointsByLetter(l))
                 .Sum();
 
-            points = (int)(wordPoints * Math.Round(1 + bonusPercentagesForCrossing / 100 * numberOfCrossings, 0)) + additionalPoints;
+            points = (int) Math.Round((wordPoints * (1 + bonusPercentagesForCrossing / 100 * numberOfCrossings)), 0) + additionalPoints;
 
             return points;
         }

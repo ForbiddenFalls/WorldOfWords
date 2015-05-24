@@ -48,7 +48,6 @@ body > div.container.body-content > div > aside > fieldset > p {
 }
 
 body > div.container.body-content > div > aside > fieldset > a {
-   
     color: gainsboro;
     font-size: 10px;
     margin-bottom: 1px;
@@ -56,8 +55,13 @@ body > div.container.body-content > div > aside > fieldset > a {
 
 body > div.container.body-content > div > aside > fieldset {
     height: 200px;
-    overflow-y : scroll;
+    overflow-y: scroll;
     margin-bottom: 20px;
+}
+
+.words-container {
+    overflow-y: scroll;
+    height: 40rem;
 }
 
 .word {
@@ -88,21 +92,20 @@ body > div.container.body-content > div > aside > fieldset {
     display: inline-block;
 }
 
-<<<<<<< .mine
     .board, .board span {
         border: solid #000 1px;
     }
 
-    body > div.container.body-content > div > aside > fieldset > table > tbody > tr {
-        border: none;
-}=======
+body > div.container.body-content > div > aside > fieldset > table > tbody > tr {
+    border: none;
+}
+
 .board, .board span {
     border: solid #000 1px;
 }
 
-#words-section td input[type=number].shoplist
-{
-    width: 40px;                                   
+#words-section td input[type=number].shoplist {
+    width: 40px;
 }
 
 .bold {
@@ -123,4 +126,5 @@ body > div.container.body-content > div > aside > fieldset {
 
 .font-size-15 {
     font-size: 1.5rem;
-}>>>>>>> .r69
+}
+
