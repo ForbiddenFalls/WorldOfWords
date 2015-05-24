@@ -13,9 +13,6 @@
             <li>@Html.ActionLink("Правила", "Rules", "Home")</li>
         }
     </ul>
-    @if (!User.Identity.IsAuthenticated)
-    {
         @Html.Partial("_LoginPartial")
-    }
-</div>
+ </div>
 
