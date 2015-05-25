@@ -1,17 +1,6 @@
 ﻿@model PagedList.IPagedList<WorldOfWords.Web.ViewsModels.WordWithCount>
 @using PagedList.Mvc;
 
-@using (Ajax.BeginForm("Store", "Store", new AjaxOptions()
-        {
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = "words-section"
-        }))
-{
-    <p>
-        Search: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
-    </p>
-}
 <table class="table">
     <tr>
         <th>
@@ -97,4 +86,5 @@
             });
 
         });
+
     </script>
