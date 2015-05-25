@@ -123,6 +123,7 @@ namespace WorldOfWords.Web.Controllers
 
         public ActionResult Buy(List<ShopItem> shopList)
         {
+            var errors = new List<string>();
             var currentUserId = this.User.Identity.GetUserId();
             var userDb = this.Data.Users.FirstOrDefault(u => u.Id == currentUserId);
             var shopListWordIds = shopList.Select(sl => sl.WordId);
@@ -145,7 +146,15 @@ namespace WorldOfWords.Web.Controllers
             var missingWordsInStore = shopListWordIds.Except(storeWords.Select(sw => sw.Id));
             if (missingWordsInStore.Any())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Some words aren't available at the moment");
+                var missingWords = shopList.Where(sl => missingWordsInStore.Contains(sl.WordId));
+
+                shopList = shopList.Except(missingWords).ToList();
+                errors.Add("Some words were not available: " + string.Join(", ", missingWords.Select(sl => sl.Word)));
+
+                if (shopList.Count == 0)
+                {
+                    return Json(new { errors, balance = userDb.Balance }, JsonRequestBehavior.AllowGet);
+                }
             }
 
             foreach (var storeWord in storeWords)
@@ -181,7 +190,7 @@ namespace WorldOfWords.Web.Controllers
 
             this.Data.SaveChanges();
 
-            return Json(new { Balance = userDb.Balance }, JsonRequestBehavior.AllowGet);
+            return Json(new { errors, balance = userDb.Balance }, JsonRequestBehavior.AllowGet);
         }
     }
 }

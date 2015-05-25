@@ -51,7 +51,15 @@ function buyWords(shopList) {
         contentType: "application/json",
         data: shopList
     }).success(function (data) {
-        alert("Success. Balance left: " + data.Balance);
+        var output = "";
+        
+        data.errors.forEach(function(err) {
+            output += err + "\n";
+        });
+
+        output += "Balance left: " + data.balance;
+
+        alert(output);
         location.reload();
     }).error(ajaxError);
 }

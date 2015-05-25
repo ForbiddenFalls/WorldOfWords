@@ -8,6 +8,7 @@ namespace WorldOfWords.Web.BindingModels
     public class ShopItem
     {
         public int WordId { get; set; }
+        public string Word { get; set; }
         public int Quantity { get; set; }
     }
 }
