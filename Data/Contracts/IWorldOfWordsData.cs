@@ -13,6 +13,7 @@
         EFRepository<WordsUsers> WordsUsers { get; }
         EFRepository<StoreWord> StoreWords { get; }
         EFRepository<BoardsUsers> BoardsUsers { get; }
+        EFRepository<BoardName> BoardName { get; }
 
         void SaveChanges();
     }

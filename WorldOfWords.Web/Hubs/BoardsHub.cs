@@ -5,6 +5,7 @@
     using System.Data.Entity;
     using System.Drawing;
     using System.Linq;
+    using System.Reflection;
     using Controllers;
     using Data.Contracts;
     using Microsoft.AspNet.Identity;
@@ -27,6 +28,7 @@
             Board board = null;
             int userPoits = 0;
             int pointsOfWord = 0;
+            var isBoardClosed = false;
             try
             {
                 if (!Context.User.Identity.IsAuthenticated)
@@ -36,13 +38,20 @@
 
                 var userId = Context.User.Identity.GetUserId();
 
-                board = Data.Boards.FirstOrDefault(b => b.Name == boardName);
+                board = Data.Boards.FirstOrDefault(b => b.Name.Text == boardName);
                 if (board == null)
                 {
                     throw new ApplicationException(String.Format("Board with name {0} is not found.", boardName));
                 }
 
+                if (board.ExpirationDate < DateTime.Now)
+                {
+                    isBoardClosed = true;
+                    throw new ApplicationException("The board is closed.");
+                }
+
                 var word = this.Data.WordsUsers
+                    .Where(wu => wu.UserId == userId)
                     .FirstOrDefault(w => w.Word.Content == addedWord);
                 if (word == null)
                 {
@@ -79,15 +88,15 @@
                     }
 
                     pointsOfWord = this.GetPoints(addedWord);
-                    var boarsUsers = this.Data.BoardsUsers
-                        .First(bu => (bu.UserId == userId && bu.Board.Name == boardName));
+                    var boardsUsers = this.Data.BoardsUsers
+                        .First(bu => (bu.UserId == userId && bu.Board.Name.Text == boardName));
 
-                    boarsUsers.UserPoints += pointsOfWord;
+                    boardsUsers.UserPoints += pointsOfWord;
                     var user = this.Data.Users.First(u => u.Id == userId);
 
                     this.Data.SaveChanges();
 
-                    userPoits = boarsUsers.UserPoints;
+                    userPoits = boardsUsers.UserPoints;
                 }
                 else
                 {
@@ -99,6 +108,7 @@
             {
                 return new
                 {
+                    isClosed = isBoardClosed,
                     message = ex.Message,
                     points = userPoits
                 };

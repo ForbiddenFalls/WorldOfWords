@@ -19,45 +19,20 @@
 
         protected override void Seed(WorldOfWordsDbContext context)
         {
-            //Prevent loop Seed
-            if (context.Words.Any()) return;
-            if (context.Boards.Any()) return;
-            if (context.Languages.Any()) return;
-
             AddLanguagesToDb(context);
             AddRolesToDb(context);
             AddWordsToDbAndStore(context);
+            AddBoardNames(context);
+            AddLettersPoints(context);
+        }
 
-            var sizeBoard = 10;
 
-            var boardVarna = new Board()
+        private void AddLettersPoints(WorldOfWordsDbContext context)
+        {
+            if (context.LettersPoints.Any())
             {
-                Name = "Varna",
-                Size = sizeBoard,
-                Content = new String(' ', sizeBoard * sizeBoard),
-                ExpirationDate = DateTime.Now.AddDays(20).AddHours(12),
-            };
-
-            sizeBoard = 5;
-            var boardSofia = new Board()
-            {
-                Name = "Sofia",
-                Size = sizeBoard,
-                Content = "",
-                ExpirationDate = DateTime.Now.AddDays(20).AddHours(12),
-            };
-
-            var boardPlovdiv = new Board()
-            {
-                Name = "Plovdiv",
-                Size = 5,
-                Content = "",
-                ExpirationDate = DateTime.Now.AddDays(20).AddHours(12),
-            };
-
-            context.Boards.Add(boardSofia);
-            context.Boards.Add(boardPlovdiv);
-            context.Boards.Add(boardVarna);
+                return;
+            }
 
             var language = context.Languages.FirstOrDefault(l => l.LanguageCode == "bg");
 
@@ -69,6 +44,60 @@
             {
                 var l = new LettersPoints { LanguageId = language.Id, Letter = letters[i].ToString(), Points = points[i] };
                 context.LettersPoints.Add(l);
+            }
+
+            context.SaveChanges();
+        }
+
+        private void AddBoardNames(WorldOfWordsDbContext context)
+        {
+            if (context.BoardNames.Any())
+            {
+                return;
+            }
+
+            var names = new List<string>
+            {
+                "София",
+                "Варна",
+                "Петрич",
+                "Русе",
+                "Лазур",
+                "Синеморец",
+                "Лозен",
+                "Ахтопол",
+                "Приморско",
+                "Черноморец",
+                "Враня",
+                "Средец",
+                "Пловдив",
+                "Априлово",
+                "Маргарита",
+                "Синчец",
+                "Божур",
+                "Рожен",
+                "Рила",
+                "Мусала",
+                "Вихрен",
+                "Рай",
+                "Пещера",
+                "Стара Планина",
+                "Люлин",
+                "Надежда",
+                "Загора",
+                "Равно поле",
+                "Тръново",
+                "Змейово",
+            };
+
+            var languageId = context.Languages.First(l => l.LanguageCode == "bg").Id;
+            foreach (var name in names)
+            {
+                context.BoardNames.Add(new BoardName
+                {
+                    Text = name,
+                    LanguageId = languageId
+                });
             }
 
             context.SaveChanges();
@@ -105,6 +134,8 @@
 
         private void AddLanguagesToDb(WorldOfWordsDbContext context)
         {
+            if (context.Languages.Any()) return;
+
             var languageCodes = new string[] {"bg"};
             foreach (var languageCode in languageCodes)
             {
@@ -119,6 +150,8 @@
 
         private void AddWordsToDbAndStore(WorldOfWordsDbContext context)
         {
+            if (context.Words.Any()) return;
+
             var words = new string[]
             {
                 "котка",

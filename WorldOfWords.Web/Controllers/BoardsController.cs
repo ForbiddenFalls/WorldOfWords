@@ -21,7 +21,12 @@
                 .Include("WordsUsers.Words")
                 .First(u => u.Id == userId);
 
-            var board = this.Data.Boards.First(b => b.Name == name);
+            var board = this.Data.Boards.FirstOrDefault(b => b.Name.Text == name);
+            if (board == null)
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
             if (board.Content == "")
             {
                 board.Content = new String(' ', board.Size * board.Size);
@@ -29,7 +34,7 @@
             }
 
             var userWords = user.WordsUsers
-                .Where(wu => wu.Word.Boards.All(b => b.Name != name))
+                .Where(wu => wu.Word.Boards.All(b => b.Name.Text != name))
                 .Select(wu => wu.Word.Content)
                 .OrderBy(w => w.Length)
                 .ThenBy(w => w)

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace WorldOfWords.Web.Controllers
+﻿namespace WorldOfWords.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Linq;
+    using System.Web.Mvc;
     using Microsoft.AspNet.Identity;
     using Models;
     using ViewsModels;
@@ -18,7 +15,7 @@ namespace WorldOfWords.Web.Controllers
             var homeInfo = new HomeViewModel();
 
             //take all boards
-            var boardsDb = this.Data.Boards.All()
+            var boardsDb = this.Data.Boards
                 .Select(b => b)
                 .ToList();
 
@@ -40,7 +37,7 @@ namespace WorldOfWords.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 string userId = this.User.Identity.GetUserId();
-                var userStats = this.Data.Users.All()
+                var userStats = this.Data.Users
                     .FirstOrDefault(u => u.Id == userId);
 
                 homeInfo.UserName = User.Identity.Name;

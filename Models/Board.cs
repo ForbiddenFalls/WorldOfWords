@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Board
     {
@@ -16,9 +17,6 @@
         }
 
         public int Id { get; set; }
-
-        [Required]
-        public string Name { get; set; }
 
         [Required]
         public int Size { get; set; }
@@ -37,5 +35,7 @@
         {
             get { return this.boardsUsers; }
         }
+
+        public virtual BoardName Name { get; set; }
     }
 }

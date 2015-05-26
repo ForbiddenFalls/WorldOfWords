@@ -49,9 +49,10 @@
                             <th>Име</th>
                             <th>Площ</th>
                             <th>Изтича на</th>
-                            <th>Оставащи часове</th>
+                            <th>Оставащи минути</th>
                             <th>Точки</th>
                         </tr>
+
 
                         @foreach (var board in Model.BoardsUsers)
                         {
@@ -59,7 +60,7 @@
 
                             <tr class="@(odd ? "info" : "success")">
                                 <td>
-                                    <a href="@("../board/" + board.Board.Name)"><strong>@(board.Board.Name)</strong></a>
+                                    <a href="@("../board/" + board.Board.Name.Text)"><strong>@(board.Board.Name.Text)</strong></a>
                                 </td>
                                 <td>
                                     Размер: @board.Board.Size x @board.Board.Size
@@ -68,14 +69,15 @@
                                     @board.Board.ExpirationDate.ToString("HH:MM dd-MMM-yy")г.
                                 </td>
                                 <td>
-                                    <strong>@(string.Format("{0:f0}", expired.TotalHours))</strong>
+                                    <strong>@(string.Format("{0:f0}", expired.TotalMinutes))</strong>
                                 </td>
                                 <td>
                                     @board.UserPoints
                                 </td>
                             </tr>
-                            @(odd = !odd);
+                            odd = !odd;
                         }
+
                     </table>
                 }
                 else
@@ -103,7 +105,7 @@
                     <th>Име</th>
                     <th>Площ</th>
                     <th>Изтича на</th>
-                    <th>Оставащи часове</th>
+                    <th>Оставащи минути</th>
                 </tr>
 
                 @foreach (var board in Model.AllBoards)
@@ -112,7 +114,7 @@
 
                     <tr class="@(odd ? "info" : "success")">
                         <td>
-                            <a href="@("../board/" + board.Name)"><strong>@(board.Name)</strong></a>
+                            <a href="@("../board/" + board.Name.Text)"><strong>@(board.Name.Text)</strong></a>
                         </td>
                         <td>
                             Размер: @board.Size x @board.Size
@@ -121,9 +123,10 @@
                             @board.ExpirationDate.ToString("HH:MM dd-MMM-yy")г.
                         </td>
                         <td>
-                            <strong>@(string.Format("{0:f0}", expired.TotalHours))</strong>
+                             <strong>@(string.Format("{0:f0}", expired.TotalMinutes))</strong>
                         </td>
                     </tr>
+
                     odd = !odd;
                 }
             </table>

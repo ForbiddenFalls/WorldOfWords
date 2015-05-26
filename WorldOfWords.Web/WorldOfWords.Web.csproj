@@ -184,6 +184,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BindingModels\ShopItem.cs" />
+    <Compile Include="BindingModels\UserModel.cs" />
     <Compile Include="Common\Assessor.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Controllers\AccountController.cs" />

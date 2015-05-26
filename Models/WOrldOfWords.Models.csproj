@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="BoardName.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="LettersPoints.cs" />
     <Compile Include="StoreWord.cs" />

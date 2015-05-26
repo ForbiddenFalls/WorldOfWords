@@ -69,7 +69,8 @@ app.board = function (word) {
     var boardName = $('#boarName').text(),
         words = [],
         dropCellId,
-        size;
+        size,
+        isClosed = false;
 
     function setSize(boardSize) {
         size = boardSize;
@@ -147,6 +148,10 @@ app.board = function (word) {
 
     function drop(ev) {
         ev.preventDefault();
+        if (isClosed) {
+            return;
+        }
+
         dropCellId = Number($(ev.target).attr('data-position'));
         app.boardHub.addWordToBoard(boardName, word.getWord(), word.getCatchedLetterId(), word.isVertical(), dropCellId);
         pushWordInBoard();
@@ -185,12 +190,18 @@ app.board = function (word) {
         $board.on('mouseup', 'span', getCellId);
     }();
 
+    function close() {
+        isClosed = true;
+
+    }
+
     return {
         name: getName(),
         setSize: setSize,
         getBoardAsJson: getBoardAsJson,
-        loadBoard: loadBoard
-    };
+        loadBoard: loadBoard,
+        close: close
+};
 }(app.word);
 
 // SignalR Modul for adding word to board
@@ -217,6 +228,9 @@ app.boardHub = function (board) {
         hub.server.addWordToBoard(boardName, word, catchedLetterId, isVertical, dropCellId)
             .done(function (result) {
                 updatePage(result);
+                if (result.isClosed) {
+                    board.close();
+                }
             });
     }
 
@@ -295,6 +309,56 @@ app.search = function () {
             }
         });
     }();
+}();
+
+app.timer = function () {
+    var SECONDS_IN_HOUR = 60 * 60,
+        SECONDS_IN_MUNUTE = 60,
+        ONE_SECOND = 1000;
+
+    var currentSeconds,
+        currentMinutes,
+        currentHours,
+        callback,
+        $timer;
+
+    function showTime() {
+        $($timer).text(currentHours + ':' + currentMinutes + ':' + currentSeconds);
+    }
+
+    function setTimer($timerSelector, durationInSeconds, finalActionCallback) {
+        $timer = $timerSelector;
+        currentHours = parseInt(durationInSeconds / SECONDS_IN_HOUR);
+        currentMinutes = parseInt((durationInSeconds - currentHours * SECONDS_IN_HOUR) / SECONDS_IN_MUNUTE);
+        currentSeconds = durationInSeconds % SECONDS_IN_MUNUTE;
+        callback = finalActionCallback;
+        showTime();
+    }
+
+    var interval = setInterval(function () {
+        currentSeconds--;
+        if (currentSeconds < 0) {
+            currentSeconds = 60;
+            currentMinutes--;
+        }
+
+        if (currentMinutes < 0) {
+            currentMinutes = 60;
+            currentHours--;
+        }
+
+        if (currentHours < 0) {
+            clearInterval(interval);
+            return;
+        }
+
+        showTime();
+
+    }, ONE_SECOND);
+
+    return {
+        setTimer: setTimer
+    };
 }();
 
 
