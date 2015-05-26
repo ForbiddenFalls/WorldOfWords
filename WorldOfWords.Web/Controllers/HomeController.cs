@@ -28,7 +28,8 @@
                     {
                         Name = board.Name,
                         ExpirationDate = board.ExpirationDate,
-                        Size = board.Size
+                        Size = board.Size,
+                        Content = board.Content
                     });
                 }
             }
