@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.UI;
 using Models;
 using WebGrease.Css.Extensions;
@@ -190,7 +192,53 @@ namespace WorldOfWords.Web.Controllers
 
             this.Data.SaveChanges();
 
+            Task.Factory.StartNew(() => FillStoreIfNeeded());
+
             return Json(new { errors, balance = userDb.Balance }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FillStoreIfNeeded()
+        {
+            var balanceInStore = TotalBalanceInStore();
+            if (balanceInStore < Config.MinBalanceInStore)
+            {
+                while (balanceInStore < Config.MaxBalanceInStore)
+                {
+                    var randomIndex = new Random().Next(0, this.Data.Words.Count());
+
+                    var storeWordIds = this.Data.StoreWords.Select(sw => sw.WordId);
+                    var word = this.Data.Words
+                        .Where(w => !storeWordIds.Contains(w.Id))
+                        .OrderBy(w => Guid.NewGuid())
+                        .Skip(randomIndex)
+                        .Take(1)
+                        .First();
+
+                    this.Data.StoreWords.Add(new StoreWord()
+                    {
+                        DateAdded = DateTime.Now,
+                        Word = word,
+                        Quantity = Config.InitialQuantityForWordInStore
+                    });
+                    balanceInStore += this.WordAssessor.GetPointsByWord(word.Content) * Config.InitialQuantityForWordInStore;
+                }
+
+                this.Data.SaveChanges();
+                return Json(new { success = 1 });
+            }
+            else
+            {
+                return Json(new { success = 0, errors = "Store doesn't have to be filled" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private int TotalBalanceInStore()
+        {
+            var words = this.Data.StoreWords.Select(w => new {w.Word.Content, w.Quantity}).ToList();
+            var totalBalanceInStore = 0;
+            words.ForEach(w => totalBalanceInStore += this.WordAssessor.GetPointsByWord(w.Content)*w.Quantity);
+
+            return totalBalanceInStore;
         }
     }
 }
