@@ -13,7 +13,7 @@
     using Data;
     using Data.Contracts;
     using Data.Migrations;
-
+    using Microsoft.Ajax.Utilities;
     using Models;
 
     public abstract class BaseController : Controller
@@ -27,7 +27,6 @@
             this.WordAssessor = new Assessor(Config.Language, this.Data);
             var boardManager = new BoardsManager(this.Data);
             boardManager.Execute();
-
         }
 
         protected IWorldOfWordsData Data { get; set; }

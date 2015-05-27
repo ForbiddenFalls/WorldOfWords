@@ -2,6 +2,8 @@
 {
     using System;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using BindingModels;
     using Data.Contracts;
     using Models;
@@ -18,11 +20,10 @@
 
         private Random RandomGenerator { get; set; }
 
-        public void Execute()
+        public async void  Execute()
         {
             AddUsersPointsFromClosedBoards();
             DeleteClosedBoards();
-
             var missingBoards = Config.MaxNumberOfEmptyBoards - this.GetCountOfEmptyBoards();
             for (int i = 0; i < missingBoards; i++)
             {

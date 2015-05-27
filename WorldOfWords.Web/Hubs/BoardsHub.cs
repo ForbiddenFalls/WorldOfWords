@@ -112,7 +112,7 @@
                 }
                 else
                 {
-                    throw new ApplicationException(string.Format("Думата \"{0}\" е има на полето.",
+                    throw new ApplicationException(string.Format("Думата \"{0}\" е има в полето.",
                         word.Word.Content));
                 }
             }
