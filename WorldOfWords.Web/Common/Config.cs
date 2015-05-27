@@ -12,9 +12,9 @@
         public const int MaxSize = 10;
 
         // board life
-        public const int MinDurationInMinutes = 5;
-        // 1 day = 60 min * 24 h
-        public const int MaxDurationInMinutes = 15;
+        public const int MinDurationInMinutes = 15;
+        // 2 hours = 60 min * 2 = 120
+        public const int MaxDurationInMinutes = 120;
 
         // Bonus coefficients for filling boards
         public const int FirstBonusLevelCoefficient = 2;
