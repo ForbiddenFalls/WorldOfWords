@@ -7,9 +7,9 @@
             <li>@Html.ActionLink("Магазин", "Index", "Store")</li>
             <li>@Html.ActionLink("Класиране", "Rating", "Home")</li>
             <li>@Html.ActionLink("Правила", "Rules", "Home")</li>
-            if (Session["boardName"] != null)
+            if (Session["boardName"] != null && ViewContext.RouteData.Values["controller"].ToString() != "Boards")
             {
-                <li><a href="/board/@ViewBag.boardName">@ViewBag.boardName</a></li>
+                <li><a href="/board/@Session["boardName"].ToString()">@Session["boardName"].ToString() </a></li>
             }
         }
         else

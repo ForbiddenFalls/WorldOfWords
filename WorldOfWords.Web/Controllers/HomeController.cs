@@ -13,6 +13,8 @@
         public ActionResult Index()
         {
             var homeInfo = new HomeViewModel();
+            this.Session["boardName"] = null;
+
 
             //take all boards
             var boardsDb = this.Data.Boards

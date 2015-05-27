@@ -20,7 +20,7 @@
 
         private Random RandomGenerator { get; set; }
 
-        public async void  Execute()
+        public void Execute()
         {
             AddUsersPointsFromClosedBoards();
             DeleteClosedBoards();

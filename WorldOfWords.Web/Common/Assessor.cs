@@ -65,7 +65,7 @@
             }
             else if (Config.SecondBonusLevel < fillingPercents && fillingPercents <= Config.ThirdBonusLevel)
             {
-                return Config.SecondBonusLevel;
+                return Config.SecondBonusLevelCoefficient;
             }
             else if (fillingPercents > Config.ThirdBonusLevel)
             {

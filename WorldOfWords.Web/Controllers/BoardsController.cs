@@ -27,6 +27,8 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
+            this.Session["boardName"] = board.Name.Text;
+
             if (board.Content == "")
             {
                 board.Content = new String(' ', board.Size * board.Size);

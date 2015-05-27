@@ -133,13 +133,13 @@
                    words = board.Words.Select(w => w.Content).ToList()
                });
 
-                this.Clients.Group(boardName).loadBoard(json);
+                this.Clients.Group(boardName).loadBoard(json, Assessor.GetPercentOfFilling(board.Content));
             }
 
             return new
             {
                 message = string.Format("Изкарани точки от думата: {0}", pointsOfWord),
-                points = userPoits
+                points = userPoits,
             };
         }
 
@@ -216,10 +216,10 @@
             var additionalPoints = this.CrossLetters
                 .Select(l => this.WordAssessor.GetPointsByLetter(l))
                 .Sum();
+            var bonusCoefficient = Assessor.GetBonusCoefficientByBoard(boardContent);
 
-            points = (int) Math.Round((wordPoints * (1 + bonusPercentagesForCrossing / 100 * numberOfCrossings)), 0) + additionalPoints;
-            points += (points - wordPoints) * Assessor.GetBonusCoefficientByBoard(boardContent);
-
+            points = wordPoints 
+                + ((int)(Math.Round((wordPoints * (bonusPercentagesForCrossing / 100 * numberOfCrossings)), 0) + additionalPoints)) * bonusCoefficient;
             return points;
         }
     }

@@ -27,6 +27,7 @@
             this.WordAssessor = new Assessor(Config.Language, this.Data);
             var boardManager = new BoardsManager(this.Data);
             boardManager.Execute();
+            var i = 5;
         }
 
         protected IWorldOfWordsData Data { get; set; }
